@@ -1,0 +1,1183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CG.Common</name>
+    </assembly>
+    <members>
+        <member name="T:CG.Common.Wpf.CommandExtension`1">
+            <summary>
+            Basic implementation of the <see cref="T:System.Windows.Input.ICommand"/>
+            interface, which is also accessible as a markup
+            extension.
+            </summary>
+        </member>
+        <member name="F:CG.Common.Wpf.CommandExtension`1.command">
+            <summary>
+            A singleton instance.
+            </summary>
+        </member>
+        <member name="M:CG.Common.Wpf.CommandExtension`1.ProvideValue(System.IServiceProvider)">
+            <summary>
+            Gets a shared command instance.
+            </summary>
+        </member>
+        <member name="M:CG.Common.Wpf.CommandExtension`1.Execute(System.Object)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command.
+            If the command does not require data to be passed,
+            this object can be set to null.
+            </param>
+        </member>
+        <member name="M:CG.Common.Wpf.CommandExtension`1.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command
+            can execute in its current state.
+            </summary>
+            <returns>
+            This default implementation always returns true.
+            </returns>
+            <param name="parameter">Data used by the command.  
+            If the command does not require data to be passed,
+            this object can be set to null.
+            </param>
+        </member>
+        <member name="E:CG.Common.Wpf.CommandExtension`1.CanExecuteChanged">
+            <summary>
+            Fires when changes occur that affect whether
+            or not the command should execute.
+            </summary>
+        </member>
+        <member name="T:CG.Common.Win32PInvoke">
+            <summary>
+            Wrap win32 functions
+            </summary>
+            <remarks>
+            Sources: pinvoke.net, msdn.microsoft.com
+            </remarks>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.PostMessage(System.IntPtr,System.UInt32,System.IntPtr,System.IntPtr)">
+            <summary>
+            Places (posts) a message in the message queue associated with the thread
+            that created the specified window and returns without waiting for
+            the thread to process the message.
+            </summary>
+            <param name="hWnd">A handle to the window whose window procedure is to receive the message.</param>
+            <param name="msg">The message to be posted.</param>
+            <param name="wParam">Additional message-specific information.</param>
+            <param name="lParam">Additional message-specific information.</param>
+            <exception cref="T:System.ComponentModel.Win32Exception">Throw exception if function fails.</exception>
+            <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.SetFocus(System.IntPtr)">
+            <summary>
+            Sets the keyboard focus to the specified window. The window must be attached
+            to the calling thread's message queue. 
+            </summary>
+            <param name="hWnd">
+            A handle to the window that will receive the keyboard input.
+            </param>
+            <returns>
+            Return value is the handle to the window that previously had the keyboard focus.
+            </returns>
+            <exception cref="T:System.ComponentModel.Win32Exception">
+            Throw exception if window is not attached to the calling thread's message queue.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.ShowWindow(System.IntPtr,CG.Common.Win32PInvoke.WindowShowStyle)">
+             <summary>Shows a Window</summary>
+             <remarks>
+             <para>To perform certain special effects when showing or hiding a
+             window, use AnimateWindow.</para>
+            <para>The first time an application calls ShowWindow, it should use
+            the WinMain function's nCmdShow parameter as its nCmdShow parameter.
+            Subsequent calls to ShowWindow must use one of the values in the
+            given list, instead of the one specified by the WinMain function's
+            nCmdShow parameter.</para>
+            <para>As noted in the discussion of the nCmdShow parameter, the
+            nCmdShow value is ignored in the first call to ShowWindow if the
+            program that launched the application specifies startup information
+            in the structure. In this case, ShowWindow uses the information
+            specified in the STARTUPINFO structure to show the window. On
+            subsequent calls, the application must call ShowWindow with nCmdShow
+            set to SW_SHOWDEFAULT to use the startup information provided by the
+            program that launched the application. This behavior is designed for
+            the following situations: </para>
+            <list type="">
+                <item>Applications create their main window by calling CreateWindow
+                with the WS_VISIBLE flag set. </item>
+                <item>Applications create their main window by calling CreateWindow
+                with the WS_VISIBLE flag cleared, and later call ShowWindow with the
+                SW_SHOW flag set to make it visible.</item>
+            </list></remarks>
+             <param name="hWnd">Handle to the window.</param>
+             <param name="nCmdShow">Specifies how the window is to be shown.
+             This parameter is ignored the first time an application calls
+             ShowWindow, if the program that launched the application provides a
+             STARTUPINFO structure. Otherwise, the first time ShowWindow is called,
+             the value should be the value obtained by the WinMain function in its
+             nCmdShow parameter. In subsequent calls, this parameter can be one of
+             the WindowShowStyle members.</param>
+             <returns>
+             If the window was previously visible, the return value is nonzero.
+             If the window was previously hidden, the return value is zero.
+             </returns>
+             <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+             <exception cref="T:System.ArgumentOutOfRangeException">nCmdShow is invalid</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.SetForegroundWindow(System.IntPtr)">
+            <summary>
+            Brings the thread that created the specified window into the foreground
+            and activates the window. Keyboard input is directed to the window, 
+            and various visual cues are changed for the user. The system assigns 
+            a slightly higher priority to the thread that created the foreground 
+            window than it does to other threads. 
+            </summary>
+            <param name="hWnd">A handle to the window that should be activated and brought to the foreground.</param>
+            <returns>
+            If the window was brought to the foreground, the return value is true.
+            If the window was not brought to the foreground, the return value is false.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.GetWindowText(System.IntPtr,System.Text.StringBuilder@,System.Int32)">
+            <summary>
+            Copies the text of the specified window's title bar (if it has one) into a buffer.
+            If the specified window is a control, the text of the control is copied.
+            However, GetWindowText cannot retrieve the text of a control in another application.
+            </summary>
+            <param name="hWnd">A handle to the window or control containing the text.</param>
+            <param name="lpString">
+            The buffer that will receive the text. If the string is as long
+            or longer than the buffer, the string is truncated and terminated with a null character.
+            </param>
+            <param name="nMaxCount">
+            The maximum number of characters to copy to the buffer, including the null character.
+            If the text exceeds this limit, it is truncated.
+            </param>
+            <returns>
+            If the function succeeds, the return value is the length, in characters,
+            of the copied string, not including the terminating null character.
+            </returns>
+            <exception cref="T:System.ComponentModel.Win32Exception">
+            Throw an exception if the window has no title bar or text, if the title bar is empty,
+            or if the window or control handle is invalid.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.GetWindowText(System.IntPtr)">
+            <summary>
+            Copies the text of the specified window's title bar (if it has one) into a buffer.
+            If the specified window is a control, the text of the control is copied.
+            However, GetWindowText cannot retrieve the text of a control in another application.
+            </summary>
+            <remarks>
+            This function wraps original GetWindowText function to simplify usage.
+            </remarks>
+            <param name="hWnd">A handle to the window or control containing the text.</param>
+            <returns>
+            If the function succeeds, the return value is the window text.
+            </returns>
+            <exception cref="T:System.ComponentModel.Win32Exception">
+            Throw an exception if the window has no title bar or text, if the title bar is empty,
+            or if the window or control handle is invalid.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.FindWindow(System.String,System.String)">
+            <summary>
+            Retrieves a handle to the top-level window whose class name and window name match 
+            the specified strings. This function does not search child windows.
+            This function does not perform a case-sensitive search.
+            </summary>
+            <param name="lpClassName">
+            The class name or a class atom created by a previous call to the RegisterClass or RegisterClassEx function.
+            The atom must be in the low-order word of lpClassName; the high-order word must be zero.
+            If lpClassName points to a string, it specifies the window class name. 
+            The class name can be any name registered with RegisterClass or RegisterClassEx, 
+            or any of the predefined control-class names.
+            If lpClassName is null, it finds any window whose title matches the lpWindowName parameter. 
+            </param>
+            <param name="lpWindowName">
+            The window name (the window's title). If this parameter is null, all window names match. 
+            </param>
+            <returns>
+            If the function succeeds, the return value is a handle to the window that has the specified class name and window name.
+            If the function fails, the return value is null.
+            </returns>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.keybd_event(System.Windows.Forms.Keys,System.Byte,CG.Common.Win32PInvoke.KeyEvent,System.UIntPtr)">
+            <summary>
+            Synthesizes a keystroke. The system can use such a synthesized keystroke to generate
+            a WM_KEYUP or WM_KEYDOWN message. The keyboard driver's interrupt handler
+            calls the keybd_event function.
+            </summary>
+            <param name="bVk">A virtual-key code. The code must be a value in the range 1 to 254.</param>
+            <param name="bScan">A hardware scan code for the key.</param>
+            <param name="dwFlags">Controls various aspects of function operation.</param>
+            <param name="dwExtraInfo">An additional value associated with the key stroke. </param>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.IsWindowVisible(System.IntPtr)">
+            <summary>
+            Determines the visibility state of the specified window.
+            </summary>
+            <param name="hWnd">A handle to the window to be tested.</param>
+            <returns>
+            If the specified window, its parent window, its parent's parent window, and so forth, 
+            have the WS_VISIBLE style, the return value is true.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">hWnd is null</exception>
+        </member>
+        <member name="M:CG.Common.Win32PInvoke.DeleteObject(System.IntPtr)">
+            <summary>
+            The DeleteObject function deletes a logical pen, brush, font, bitmap, region, 
+            or palette, freeing all system resources associated with the object. 
+            After the object is deleted, the specified handle is no longer valid.
+            </summary>
+            <param name="hObject">A handle to a logical pen, brush, font, bitmap, region, or palette.</param>
+            <returns>true if function succeeds, false else</returns>
+            <exception cref="T:System.ArgumentException">hObject is invalid</exception>
+        </member>
+        <member name="T:CG.Common.Win32PInvoke.WindowShowStyle">
+            <summary>Enumeration of the different ways of showing a window using
+            ShowWindow</summary>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.Hide">
+            <summary>Hides the window and activates another window.</summary>
+            <remarks>See SW_HIDE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowNormal">
+            <summary>Activates and displays a window. If the window is minimized
+            or maximized, the system restores it to its original size and
+            position. An application should specify this flag when displaying
+            the window for the first time.</summary>
+            <remarks>See SW_SHOWNORMAL</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowMinimized">
+            <summary>Activates the window and displays it as a minimized window.</summary>
+            <remarks>See SW_SHOWMINIMIZED</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowMaximized">
+            <summary>Activates the window and displays it as a maximized window.</summary>
+            <remarks>See SW_SHOWMAXIMIZED</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.Maximize">
+            <summary>Maximizes the specified window.</summary>
+            <remarks>See SW_MAXIMIZE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowNormalNoActivate">
+            <summary>Displays a window in its most recent size and position.
+            This value is similar to "ShowNormal", except the window is not
+            actived.</summary>
+            <remarks>See SW_SHOWNOACTIVATE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.Show">
+            <summary>Activates the window and displays it in its current size
+            and position.</summary>
+            <remarks>See SW_SHOW</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.Minimize">
+            <summary>Minimizes the specified window and activates the next
+            top-level window in the Z order.</summary>
+            <remarks>See SW_MINIMIZE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowMinNoActivate">
+            <summary>Displays the window as a minimized window. This value is
+            similar to "ShowMinimized", except the window is not activated.</summary>
+            <remarks>See SW_SHOWMINNOACTIVE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowNoActivate">
+            <summary>Displays the window in its current size and position. This
+            value is similar to "Show", except the window is not activated.</summary>
+            <remarks>See SW_SHOWNA</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.Restore">
+            <summary>Activates and displays the window. If the window is
+            minimized or maximized, the system restores it to its original size
+            and position. An application should specify this flag when restoring
+            a minimized window.</summary>
+            <remarks>See SW_RESTORE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ShowDefault">
+            <summary>Sets the show state based on the SW_ value specified in the
+            STARTUPINFO structure passed to the CreateProcess function by the
+            program that started the application.</summary>
+            <remarks>See SW_SHOWDEFAULT</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.WindowShowStyle.ForceMinimized">
+            <summary>Windows 2000/XP: Minimizes a window, even if the thread
+            that owns the window is hung. This flag should only be used when
+            minimizing windows from a different thread.</summary>
+            <remarks>See SW_FORCEMINIMIZE</remarks>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.KeyEvent.None">
+            <summary>
+            Default
+            </summary>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.KeyEvent.ExtendedKey">
+            <summary>
+            The scan code was preceded by a prefix byte having the value 0xE0 (224).
+            </summary>
+        </member>
+        <member name="F:CG.Common.Win32PInvoke.KeyEvent.KeyUp">
+            <summary>
+            The key is being released
+            </summary>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.Authentication.AuthNone">
+            <summary>
+            This class implements the 'No Authentication' scheme.
+            </summary>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod">
+            <summary>
+            Implements a SOCKS authentication scheme.
+            </summary>
+            <remarks>This is an abstract class; it must be inherited.</remarks>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.#ctor(System.Net.Sockets.Socket)">
+            <summary>
+            Initializes an AuthMethod instance.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.Authenticate">
+            <summary>
+            Authenticates the user.
+            </summary>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">Authentication with the proxy server failed.</exception>
+            <exception cref="T:System.Net.ProtocolViolationException">The proxy server uses an invalid protocol.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.BeginAuthenticate(Org.Mentalis.Network.ProxySocket.HandShakeComplete)">
+            <summary>
+            Authenticates the user asynchronously.
+            </summary>
+            <param name="callback">The method to call when the authentication is complete.</param>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">Authentication with the proxy server failed.</exception>
+            <exception cref="T:System.Net.ProtocolViolationException">The proxy server uses an invalid protocol.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.m_Buffer">
+            <summary>Holds the value of the Buffer property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.m_Server">
+            <summary>Holds the value of the Server property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.CallBack">
+            <summary>Holds the address of the method to call when the proxy has authenticated the client.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.m_Received">
+            <summary>Holds the value of the Received property.</summary>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.Server">
+            <summary>
+            Gets or sets the socket connection with the proxy server.
+            </summary>
+            <value>The socket connection with the proxy server.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.Buffer">
+            <summary>
+            Gets or sets a byt array that can be used to store data.
+            </summary>
+            <value>A byte array to store data.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Authentication.AuthMethod.Received">
+            <summary>
+            Gets or sets the number of bytes that have been received from the remote proxy server.
+            </summary>
+            <value>An integer that holds the number of bytes that have been received from the remote proxy server.</value>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthNone.#ctor(System.Net.Sockets.Socket)">
+            <summary>
+            Initializes an AuthNone instance.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthNone.Authenticate">
+            <summary>
+            Authenticates the user.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthNone.BeginAuthenticate(Org.Mentalis.Network.ProxySocket.HandShakeComplete)">
+            <summary>
+            Authenticates the user asynchronously.
+            </summary>
+            <param name="callback">The method to call when the authentication is complete.</param>
+            <remarks>This method immediately calls the callback method.</remarks>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.ProxyException">
+            <summary>
+            The exception that is thrown when a proxy error occurs.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxyException.#ctor">
+            <summary>
+            Initializes a new instance of the ProxyException class.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxyException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the ProxyException class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxyException.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the ProxyException class.
+            </summary>
+            <param name="socks5Error">The error number returned by a SOCKS5 server.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxyException.Socks5ToString(System.Int32)">
+            <summary>
+            Converts a SOCKS5 error number to a human readable string.
+            </summary>
+            <param name="socks5Error">The error number returned by a SOCKS5 server.</param>
+            <returns>A string representation of the specified SOCKS5 error number.</returns>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult">
+            <summary>
+            A class that implements the IAsyncResult interface. Objects from this class are returned by the BeginConnect method of the ProxySocket class.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.Init(System.Object)">
+            <summary>Initializes the internal variables of this object</summary>
+            <param name="stateObject">An object that contains state information for this request.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.Reset">
+            <summary>Initializes the internal variables of this object</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.m_Completed">
+            <summary>Used internally to represent the state of the asynchronous request</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.m_StateObject">
+            <summary>Holds the value of the StateObject property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.m_WaitHandle">
+            <summary>Holds the value of the WaitHandle property.</summary>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.IsCompleted">
+            <summary>Gets a value that indicates whether the server has completed processing the call. It is illegal for the server to use any client supplied resources outside of the agreed upon sharing semantics after it sets the IsCompleted property to "true". Thus, it is safe for the client to destroy the resources after IsCompleted property returns "true".</summary>
+            <value>A boolean that indicates whether the server has completed processing the call.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.CompletedSynchronously">
+            <summary>Gets a value that indicates whether the BeginXXXX call has been completed synchronously. If this is detected in the AsyncCallback delegate, it is probable that the thread that called BeginInvoke is the current thread.</summary>
+            <value>Returns false.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.AsyncState">
+            <summary>Gets an object that was passed as the state parameter of the BeginXXXX method call.</summary>
+            <value>The object that was passed as the state parameter of the BeginXXXX method call.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.IAsyncProxyResult.AsyncWaitHandle">
+             <summary>
+             The AsyncWaitHandle property returns the WaitHandle that can use to perform a WaitHandle.WaitOne or WaitAny or WaitAll. The object which implements IAsyncResult need not derive from the System.WaitHandle classes directly. The WaitHandle wraps its underlying synchronization primitive and should be signaled after the call is completed. This enables the client to wait for the call to complete instead polling. The Runtime supplies a number of waitable objects that mirror Win32 synchronization primitives e.g. ManualResetEvent, AutoResetEvent and Mutex.
+             WaitHandle supplies methods that support waiting for such synchronization objects to become signaled with "any" or "all" semantics i.e. WaitHandle.WaitOne, WaitAny and WaitAll. Such methods are context aware to avoid deadlocks. The AsyncWaitHandle can be allocated eagerly or on demand. It is the choice of the IAsyncResult implementer.
+            </summary>
+             <value>The WaitHandle associated with this asynchronous result.</value>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.Socks4Handler">
+            <summary>
+            Implements the SOCKS4[A] protocol.
+            </summary>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.SocksHandler">
+            <summary>
+            Implements a specific version of the SOCKS protocol. This is an abstract class; it must be inherited.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.#ctor(System.Net.Sockets.Socket,System.String)">
+            <summary>
+            Initilizes a new instance of the SocksHandler class.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+            <param name="user">The username to use when authenticating with the server.</param>
+            <exception cref="T:System.ArgumentNullException"><c>server</c> -or- <c>user</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.PortToBytes(System.Int32)">
+            <summary>
+            Converts a port number to an array of bytes.
+            </summary>
+            <param name="port">The port to convert.</param>
+            <returns>An array of two bytes that represents the specified port.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.AddressToBytes(System.Int64)">
+            <summary>
+            Converts an IP address to an array of bytes.
+            </summary>
+            <param name="address">The IP address to convert.</param>
+            <returns>An array of four bytes that represents the specified IP address.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.ReadBytes(System.Int32)">
+            <summary>
+            Reads a specified number of bytes from the Server socket.
+            </summary>
+            <param name="count">The number of bytes to return.</param>
+            <returns>An array of bytes.</returns>
+            <exception cref="T:System.ArgumentException">The number of bytes to read is invalid.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.SocksHandler.m_Server">
+            <summary>Holds the value of the Server property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.SocksHandler.m_Username">
+            <summary>Holds the value of the Username property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.SocksHandler.m_AsyncResult">
+            <summary>Holds the value of the AsyncResult property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.SocksHandler.m_Buffer">
+            <summary>Holds the value of the Buffer property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.SocksHandler.m_Received">
+            <summary>Holds the value of the Received property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.SocksHandler.ProtocolComplete">
+            <summary>Holds the address of the method to call when the SOCKS protocol has been completed.</summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.Negotiate(System.String,System.Int32)">
+            <summary>
+            Starts negotiating with a SOCKS proxy server.
+            </summary>
+            <param name="host">The remote server to connect to.</param>
+            <param name="port">The remote port to connect to.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.Negotiate(System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating with a SOCKS proxy server.
+            </summary>
+            <param name="remoteEP">The remote endpoint to connect to.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.BeginNegotiate(System.Net.IPEndPoint,Org.Mentalis.Network.ProxySocket.HandShakeComplete,System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating asynchronously with a SOCKS proxy server.
+            </summary>
+            <param name="remoteEP">An IPEndPoint that represents the remote device. </param>
+            <param name="callback">The method to call when the connection has been established.</param>
+            <param name="proxyEndPoint">The IPEndPoint of the SOCKS proxy server.</param>
+            <returns>An IAsyncProxyResult that references the asynchronous connection.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.SocksHandler.BeginNegotiate(System.String,System.Int32,Org.Mentalis.Network.ProxySocket.HandShakeComplete,System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating asynchronously with a SOCKS proxy server.
+            </summary>
+            <param name="host">The remote server to connect to.</param>
+            <param name="port">The remote port to connect to.</param>
+            <param name="callback">The method to call when the connection has been established.</param>
+            <param name="proxyEndPoint">The IPEndPoint of the SOCKS proxy server.</param>
+            <returns>An IAsyncProxyResult that references the asynchronous connection.</returns>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.SocksHandler.Server">
+            <summary>
+            Gets or sets the socket connection with the proxy server.
+            </summary>
+            <value>A Socket object that represents the connection with the proxy server.</value>
+            <exception cref="T:System.ArgumentNullException">The specified value is null.</exception>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.SocksHandler.Username">
+            <summary>
+            Gets or sets the username to use when authenticating with the proxy server.
+            </summary>
+            <value>A string that holds the username to use when authenticating with the proxy server.</value>
+            <exception cref="T:System.ArgumentNullException">The specified value is null.</exception>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.SocksHandler.AsyncResult">
+            <summary>
+            Gets or sets the return value of the BeginConnect call.
+            </summary>
+            <value>An IAsyncProxyResult object that is the return value of the BeginConnect call.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.SocksHandler.Buffer">
+            <summary>
+            Gets or sets a byte buffer.
+            </summary>
+            <value>An array of bytes.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.SocksHandler.Received">
+            <summary>
+            Gets or sets the number of bytes that have been received from the remote proxy server.
+            </summary>
+            <value>An integer that holds the number of bytes that have been received from the remote proxy server.</value>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.#ctor(System.Net.Sockets.Socket,System.String)">
+            <summary>
+            Initilizes a new instance of the SocksHandler class.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+            <param name="user">The username to use when authenticating with the server.</param>
+            <exception cref="T:System.ArgumentNullException"><c>server</c> -or- <c>user</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.GetHostPortBytes(System.String,System.Int32)">
+            <summary>
+            Creates an array of bytes that has to be sent when the user wants to connect to a specific host/port combination.
+            </summary>
+            <param name="host">The host to connect to.</param>
+            <param name="port">The port to connect to.</param>
+            <returns>An array of bytes that has to be sent when the user wants to connect to a specific host/port combination.</returns>
+            <remarks>Resolving the host name will be done at server side. Do note that some SOCKS4 servers do not implement this functionality.</remarks>
+            <exception cref="T:System.ArgumentNullException"><c>host</c> is null.</exception>
+            <exception cref="T:System.ArgumentException"><c>port</c> is invalid.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.GetEndPointBytes(System.Net.IPEndPoint)">
+            <summary>
+            Creates an array of bytes that has to be sent when the user wants to connect to a specific IPEndPoint.
+            </summary>
+            <param name="remoteEP">The IPEndPoint to connect to.</param>
+            <returns>An array of bytes that has to be sent when the user wants to connect to a specific IPEndPoint.</returns>
+            <exception cref="T:System.ArgumentNullException"><c>remoteEP</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.Negotiate(System.String,System.Int32)">
+            <summary>
+            Starts negotiating with the SOCKS server.
+            </summary>
+            <param name="host">The host to connect to.</param>
+            <param name="port">The port to connect to.</param>
+            <exception cref="T:System.ArgumentNullException"><c>host</c> is null.</exception>
+            <exception cref="T:System.ArgumentException"><c>port</c> is invalid.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy rejected the request.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.Negotiate(System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating with the SOCKS server.
+            </summary>
+            <param name="remoteEP">The IPEndPoint to connect to.</param>
+            <exception cref="T:System.ArgumentNullException"><c>remoteEP</c> is null.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy rejected the request.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.Negotiate(System.Byte[])">
+            <summary>
+            Starts negotiating with the SOCKS server.
+            </summary>
+            <param name="connect">The bytes to send when trying to authenticate.</param>
+            <exception cref="T:System.ArgumentNullException"><c>connect</c> is null.</exception>
+            <exception cref="T:System.ArgumentException"><c>connect</c> is too small.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy rejected the request.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.BeginNegotiate(System.String,System.Int32,Org.Mentalis.Network.ProxySocket.HandShakeComplete,System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating asynchronously with a SOCKS proxy server.
+            </summary>
+            <param name="host">The remote server to connect to.</param>
+            <param name="port">The remote port to connect to.</param>
+            <param name="callback">The method to call when the connection has been established.</param>
+            <param name="proxyEndPoint">The IPEndPoint of the SOCKS proxy server.</param>
+            <returns>An IAsyncProxyResult that references the asynchronous connection.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.BeginNegotiate(System.Net.IPEndPoint,Org.Mentalis.Network.ProxySocket.HandShakeComplete,System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating asynchronously with a SOCKS proxy server.
+            </summary>
+            <param name="remoteEP">An IPEndPoint that represents the remote device.</param>
+            <param name="callback">The method to call when the connection has been established.</param>
+            <param name="proxyEndPoint">The IPEndPoint of the SOCKS proxy server.</param>
+            <returns>An IAsyncProxyResult that references the asynchronous connection.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.OnConnect(System.IAsyncResult)">
+            <summary>
+            Called when the Socket is connected to the remote proxy server.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.OnSent(System.IAsyncResult)">
+            <summary>
+            Called when the Socket has sent the handshake data.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks4Handler.OnReceive(System.IAsyncResult)">
+            <summary>
+            Called when the Socket has received a reply from the remote proxy server.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.HandShakeComplete">
+            <summary>
+            References the callback method to be called when the protocol negotiation is completed.
+            </summary>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.ProxyTypes">
+            <summary>
+            Specifies the type of proxy servers that an instance of the ProxySocket class can use.
+            </summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxyTypes.None">
+            <summary>No proxy server; the ProxySocket object behaves exactly like an ordinary Socket object.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxyTypes.Socks4">
+            <summary>A SOCKS4[A] proxy server.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxyTypes.Socks5">
+            <summary>A SOCKS5 proxy server.</summary>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.ProxySocket">
+            <summary>
+            Implements a Socket class that can connect trough a SOCKS proxy server.
+            </summary>
+            <remarks>This class implements SOCKS4[A] and SOCKS5.<br>It does not, however, implement the BIND commands, so you cannot .</br></remarks>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.#ctor(System.Net.Sockets.AddressFamily,System.Net.Sockets.SocketType,System.Net.Sockets.ProtocolType)">
+            <summary>
+            Initializes a new instance of the ProxySocket class.
+            </summary>
+            <param name="addressFamily">One of the AddressFamily values.</param>
+            <param name="socketType">One of the SocketType values.</param>
+            <param name="protocolType">One of the ProtocolType values.</param>
+            <exception cref="T:System.Net.Sockets.SocketException">The combination of addressFamily, socketType, and protocolType results in an invalid socket.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.#ctor(System.Net.Sockets.AddressFamily,System.Net.Sockets.SocketType,System.Net.Sockets.ProtocolType,System.String)">
+            <summary>
+            Initializes a new instance of the ProxySocket class.
+            </summary>
+            <param name="addressFamily">One of the AddressFamily values.</param>
+            <param name="socketType">One of the SocketType values.</param>
+            <param name="protocolType">One of the ProtocolType values.</param>
+            <param name="proxyUsername">The username to use when authenticating with the proxy server.</param>
+            <exception cref="T:System.Net.Sockets.SocketException">The combination of addressFamily, socketType, and protocolType results in an invalid socket.</exception>
+            <exception cref="T:System.ArgumentNullException"><c>proxyUsername</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.#ctor(System.Net.Sockets.AddressFamily,System.Net.Sockets.SocketType,System.Net.Sockets.ProtocolType,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ProxySocket class.
+            </summary>
+            <param name="addressFamily">One of the AddressFamily values.</param>
+            <param name="socketType">One of the SocketType values.</param>
+            <param name="protocolType">One of the ProtocolType values.</param>
+            <param name="proxyUsername">The username to use when authenticating with the proxy server.</param>
+            <param name="proxyPassword">The password to use when authenticating with the proxy server.</param>
+            <exception cref="T:System.Net.Sockets.SocketException">The combination of addressFamily, socketType, and protocolType results in an invalid socket.</exception>
+            <exception cref="T:System.ArgumentNullException"><c>proxyUsername</c> -or- <c>proxyPassword</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.Connect(System.Net.EndPoint)">
+            <summary>
+            Establishes a connection to a remote device.
+            </summary>
+            <param name="remoteEP">An EndPoint that represents the remote device.</param>
+            <exception cref="T:System.ArgumentNullException">The remoteEP parameter is a null reference (Nothing in Visual Basic).</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">An error occured while talking to the proxy server.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.Connect(System.String,System.Int32)">
+            <summary>
+            Establishes a connection to a remote device.
+            </summary>
+            <param name="host">The remote host to connect to.</param>
+            <param name="port">The remote port to connect to.</param>
+            <exception cref="T:System.ArgumentNullException">The host parameter is a null reference (Nothing in Visual Basic).</exception>
+            <exception cref="T:System.ArgumentException">The port parameter is invalid.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">An error occured while talking to the proxy server.</exception>
+            <remarks>If you use this method with a SOCKS4 server, it will let the server resolve the hostname. Not all SOCKS4 servers support this 'remote DNS' though.</remarks>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.BeginConnect(System.Net.EndPoint,System.AsyncCallback,System.Object)">
+            <summary>
+            Begins an asynchronous request for a connection to a network device.
+            </summary>
+            <param name="remoteEP">An EndPoint that represents the remote device.</param>
+            <param name="callback">The AsyncCallback delegate.</param>
+            <param name="state">An object that contains state information for this request.</param>
+            <returns>An IAsyncResult that references the asynchronous connection.</returns>
+            <exception cref="T:System.ArgumentNullException">The remoteEP parameter is a null reference (Nothing in Visual Basic).</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while creating the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.BeginConnect(System.String,System.Int32,System.AsyncCallback,System.Object)">
+            <summary>
+            Begins an asynchronous request for a connection to a network device.
+            </summary>
+            <param name="host">The host to connect to.</param>
+            <param name="port">The port on the remote host to connect to.</param>
+            <param name="callback">The AsyncCallback delegate.</param>
+            <param name="state">An object that contains state information for this request.</param>
+            <returns>An IAsyncResult that references the asynchronous connection.</returns>
+            <exception cref="T:System.ArgumentNullException">The host parameter is a null reference (Nothing in Visual Basic).</exception>
+            <exception cref="T:System.ArgumentException">The port parameter is invalid.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while creating the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.EndConnect(System.IAsyncResult)">
+            <summary>
+            Ends a pending asynchronous connection request.
+            </summary>
+            <param name="asyncResult">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+            <exception cref="T:System.ArgumentNullException">The asyncResult parameter is a null reference (Nothing in Visual Basic).</exception>
+            <exception cref="T:System.ArgumentException">The asyncResult parameter was not returned by a call to the BeginConnect method.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+            <exception cref="T:System.InvalidOperationException">EndConnect was previously called for the asynchronous connection.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy server refused the connection.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.BeginDns(System.String,Org.Mentalis.Network.ProxySocket.HandShakeComplete)">
+            <summary>
+            Begins an asynchronous request to resolve a DNS host name or IP address in dotted-quad notation to an IPAddress instance.
+            </summary>
+            <param name="host">The host to resolve.</param>
+            <param name="callback">The method to call when the hostname has been resolved.</param>
+            <returns>An IAsyncResult instance that references the asynchronous request.</returns>
+            <exception cref="T:System.Net.Sockets.SocketException">There was an error while trying to resolve the host.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.OnResolved(System.IAsyncResult)">
+            <summary>
+            Called when the specified hostname has been resolved.
+            </summary>
+            <param name="asyncResult">The result of the asynchronous operation.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.OnConnect(System.IAsyncResult)">
+            <summary>
+            Called when the Socket is connected to the remote host.
+            </summary>
+            <param name="asyncResult">The result of the asynchronous operation.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.ProxySocket.OnHandShakeComplete(System.Exception)">
+            <summary>
+            Called when the Socket has finished talking to the proxy server and is ready to relay data.
+            </summary>
+            <param name="error">The error to throw when the EndConnect method is called.</param>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_State">
+            <summary>Holds the value of the State property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_ProxyEndPoint">
+            <summary>Holds the value of the ProxyEndPoint property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_ProxyType">
+            <summary>Holds the value of the ProxyType property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_ProxyUser">
+            <summary>Holds the value of the ProxyUser property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_ProxyPass">
+            <summary>Holds the value of the ProxyPass property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.CallBack">
+            <summary>Holds a pointer to the method that should be called when the Socket is connected to the remote device.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_AsyncResult">
+            <summary>Holds the value of the AsyncResult property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_ToThrow">
+            <summary>Holds the value of the ToThrow property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.ProxySocket.m_RemotePort">
+            <summary>Holds the value of the RemotePort property.</summary>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.ProxyEndPoint">
+            <summary>
+            Gets or sets the EndPoint of the proxy server.
+            </summary>
+            <value>An IPEndPoint object that holds the IP address and the port of the proxy server.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.ProxyType">
+            <summary>
+            Gets or sets the type of proxy server to use.
+            </summary>
+            <value>One of the ProxyTypes values.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.State">
+            <summary>
+            Gets or sets a user-defined object.
+            </summary>
+            <value>The user-defined object.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.ProxyUser">
+            <summary>
+            Gets or sets the username to use when authenticating with the proxy.
+            </summary>
+            <value>A string that holds the username that's used when authenticating with the proxy.</value>
+            <exception cref="T:System.ArgumentNullException">The specified value is null.</exception>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.ProxyPass">
+            <summary>
+            Gets or sets the password to use when authenticating with the proxy.
+            </summary>
+            <value>A string that holds the password that's used when authenticating with the proxy.</value>
+            <exception cref="T:System.ArgumentNullException">The specified value is null.</exception>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.AsyncResult">
+            <summary>
+            Gets or sets the asynchronous result object.
+            </summary>
+            <value>An instance of the IAsyncProxyResult class.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.ToThrow">
+            <summary>
+            Gets or sets the exception to throw when the EndConnect method is called.
+            </summary>
+            <value>An instance of the Exception class (or subclasses of Exception).</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.ProxySocket.RemotePort">
+            <summary>
+            Gets or sets the remote port the user wants to connect to.
+            </summary>
+            <value>An integer that specifies the port the user wants to connect to.</value>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.Socks5Handler">
+            <summary>
+            Implements the SOCKS5 protocol.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.#ctor(System.Net.Sockets.Socket)">
+            <summary>
+            Initiliazes a new Socks5Handler instance.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+            <exception cref="T:System.ArgumentNullException"><c>server</c>  is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.#ctor(System.Net.Sockets.Socket,System.String)">
+            <summary>
+            Initiliazes a new Socks5Handler instance.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+            <param name="user">The username to use.</param>
+            <exception cref="T:System.ArgumentNullException"><c>server</c> -or- <c>user</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.#ctor(System.Net.Sockets.Socket,System.String,System.String)">
+            <summary>
+            Initiliazes a new Socks5Handler instance.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+            <param name="user">The username to use.</param>
+            <param name="pass">The password to use.</param>
+            <exception cref="T:System.ArgumentNullException"><c>server</c> -or- <c>user</c> -or- <c>pass</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.Authenticate">
+            <summary>
+            Starts the synchronous authentication process.
+            </summary>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">Authentication with the proxy server failed.</exception>
+            <exception cref="T:System.Net.ProtocolViolationException">The proxy server uses an invalid protocol.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.GetHostPortBytes(System.String,System.Int32)">
+            <summary>
+            Creates an array of bytes that has to be sent when the user wants to connect to a specific host/port combination.
+            </summary>
+            <param name="host">The host to connect to.</param>
+            <param name="port">The port to connect to.</param>
+            <returns>An array of bytes that has to be sent when the user wants to connect to a specific host/port combination.</returns>
+            <exception cref="T:System.ArgumentNullException"><c>host</c> is null.</exception>
+            <exception cref="T:System.ArgumentException"><c>port</c> or <c>host</c> is invalid.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.GetEndPointBytes(System.Net.IPEndPoint)">
+            <summary>
+            Creates an array of bytes that has to be sent when the user wants to connect to a specific IPEndPoint.
+            </summary>
+            <param name="remoteEP">The IPEndPoint to connect to.</param>
+            <returns>An array of bytes that has to be sent when the user wants to connect to a specific IPEndPoint.</returns>
+            <exception cref="T:System.ArgumentNullException"><c>remoteEP</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.Negotiate(System.String,System.Int32)">
+            <summary>
+            Starts negotiating with the SOCKS server.
+            </summary>
+            <param name="host">The host to connect to.</param>
+            <param name="port">The port to connect to.</param>
+            <exception cref="T:System.ArgumentNullException"><c>host</c> is null.</exception>
+            <exception cref="T:System.ArgumentException"><c>port</c> is invalid.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy rejected the request.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+            <exception cref="T:System.Net.ProtocolViolationException">The proxy server uses an invalid protocol.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.Negotiate(System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating with the SOCKS server.
+            </summary>
+            <param name="remoteEP">The IPEndPoint to connect to.</param>
+            <exception cref="T:System.ArgumentNullException"><c>remoteEP</c> is null.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy rejected the request.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+            <exception cref="T:System.Net.ProtocolViolationException">The proxy server uses an invalid protocol.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.Negotiate(System.Byte[])">
+            <summary>
+            Starts negotiating with the SOCKS server.
+            </summary>
+            <param name="connect">The bytes to send when trying to authenticate.</param>
+            <exception cref="T:System.ArgumentNullException"><c>connect</c> is null.</exception>
+            <exception cref="T:System.ArgumentException"><c>connect</c> is too small.</exception>
+            <exception cref="T:Org.Mentalis.Network.ProxySocket.ProxyException">The proxy rejected the request.</exception>
+            <exception cref="T:System.Net.Sockets.SocketException">An operating system error occurs while accessing the Socket.</exception>
+            <exception cref="T:System.ObjectDisposedException">The Socket has been closed.</exception>
+            <exception cref="T:System.Net.ProtocolViolationException">The proxy server uses an invalid protocol.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.BeginNegotiate(System.String,System.Int32,Org.Mentalis.Network.ProxySocket.HandShakeComplete,System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating asynchronously with the SOCKS server. 
+            </summary>
+            <param name="host">The host to connect to.</param>
+            <param name="port">The port to connect to.</param>
+            <param name="callback">The method to call when the negotiation is complete.</param>
+            <param name="proxyEndPoint">The IPEndPoint of the SOCKS proxy server.</param>
+            <returns>An IAsyncProxyResult that references the asynchronous connection.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.BeginNegotiate(System.Net.IPEndPoint,Org.Mentalis.Network.ProxySocket.HandShakeComplete,System.Net.IPEndPoint)">
+            <summary>
+            Starts negotiating asynchronously with the SOCKS server. 
+            </summary>
+            <param name="remoteEP">An IPEndPoint that represents the remote device.</param>
+            <param name="callback">The method to call when the negotiation is complete.</param>
+            <param name="proxyEndPoint">The IPEndPoint of the SOCKS proxy server.</param>
+            <returns>An IAsyncProxyResult that references the asynchronous connection.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnConnect(System.IAsyncResult)">
+            <summary>
+            Called when the socket is connected to the remote server.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnAuthSent(System.IAsyncResult)">
+            <summary>
+            Called when the authentication bytes have been sent.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnAuthReceive(System.IAsyncResult)">
+            <summary>
+            Called when an authentication reply has been received.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnAuthenticated(System.Exception)">
+            <summary>
+            Called when the socket has been successfully authenticated with the server.
+            </summary>
+            <param name="e">The exception that has occured while authenticating, or <em>null</em> if no error occured.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnSent(System.IAsyncResult)">
+            <summary>
+            Called when the connection request has been sent.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnReceive(System.IAsyncResult)">
+            <summary>
+            Called when a connection reply has been received.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.ProcessReply(System.Byte[])">
+            <summary>
+            Processes the received reply.
+            </summary>
+            <param name="buffer">The received reply</param>
+            <exception cref="T:System.Net.ProtocolViolationException">The received reply is invalid.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Socks5Handler.OnReadLast(System.IAsyncResult)">
+            <summary>
+            Called when the last bytes are read from the socket.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Socks5Handler.m_Password">
+            <summary>Holds the value of the Password property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Socks5Handler.m_HandShake">
+            <summary>Holds the value of the HandShake property.</summary>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Socks5Handler.Password">
+            <summary>
+            Gets or sets the password to use when authenticating with the SOCKS5 server.
+            </summary>
+            <value>The password to use when authenticating with the SOCKS5 server.</value>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Socks5Handler.HandShake">
+            <summary>
+            Gets or sets the bytes to use when sending a connect request to the proxy server.
+            </summary>
+            <value>The array of bytes to use when sending a connect request to the proxy server.</value>
+        </member>
+        <member name="T:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass">
+            <summary>
+            This class implements the 'username/password authentication' scheme.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.#ctor(System.Net.Sockets.Socket,System.String,System.String)">
+            <summary>
+            Initializes a new AuthUserPass instance.
+            </summary>
+            <param name="server">The socket connection with the proxy server.</param>
+            <param name="user">The username to use.</param>
+            <param name="pass">The password to use.</param>
+            <exception cref="T:System.ArgumentNullException"><c>user</c> -or- <c>pass</c> is null.</exception>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.GetAuthenticationBytes">
+            <summary>
+            Creates an array of bytes that has to be sent if the user wants to authenticate with the username/password authentication scheme.
+            </summary>
+            <returns>An array of bytes that has to be sent if the user wants to authenticate with the username/password authentication scheme.</returns>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.Authenticate">
+            <summary>
+            Starts the authentication process.
+            </summary>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.BeginAuthenticate(Org.Mentalis.Network.ProxySocket.HandShakeComplete)">
+            <summary>
+            Starts the asynchronous authentication process.
+            </summary>
+            <param name="callback">The method to call when the authentication is complete.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.OnSent(System.IAsyncResult)">
+            <summary>
+            Called when the authentication bytes have been sent.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="M:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.OnReceive(System.IAsyncResult)">
+            <summary>
+            Called when the socket received an authentication reply.
+            </summary>
+            <param name="ar">Stores state information for this asynchronous operation as well as any user-defined data.</param>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.m_Username">
+            <summary>Holds the value of the Username property.</summary>
+        </member>
+        <member name="F:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.m_Password">
+            <summary>Holds the value of the Password property.</summary>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.Username">
+            <summary>
+            Gets or sets the username to use when authenticating with the proxy server.
+            </summary>
+            <value>The username to use when authenticating with the proxy server.</value>
+            <exception cref="T:System.ArgumentNullException">The specified value is null.</exception>
+        </member>
+        <member name="P:Org.Mentalis.Network.ProxySocket.Authentication.AuthUserPass.Password">
+            <summary>
+            Gets or sets the password to use when authenticating with the proxy server.
+            </summary>
+            <value>The password to use when authenticating with the proxy server.</value>
+            <exception cref="T:System.ArgumentNullException">The specified value is null.</exception>
+        </member>
+        <member name="T:CG.Common.Converters.DisplayableEnumConverter">
+            <summary>
+            Convert enum value to displayable representation
+            </summary>
+            <example>
+            [TypeConverter(typeof(DisplayableEnumConverter))]
+            class MyEnum
+            {
+            [EnumDisplayName("My value1")]
+            Value1,
+            [EnumDisplayName("My value2")]
+            Value2
+            }
+            </example>
+        </member>
+    </members>
+</doc>
