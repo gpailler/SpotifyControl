@@ -1,0 +1,1474 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Huddled.Interop</name>
+    </assembly>
+    <members>
+        <member name="T:Huddled.Interop.Vista.ThumbnailImage">
+            <summary>
+            A DWM Thumbnail packaged as an Image control
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.#ctor(System.IntPtr)">
+            <summary>Initializes a new instance of the <see cref="T:Huddled.Interop.Vista.ThumbnailImage"/> class.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.#cctor">
+            <summary>Initializes the <see cref="T:Huddled.Interop.Vista.ThumbnailImage"/> class.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:Huddled.Interop.Vista.ThumbnailImage"/> class.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.ArrangeOverride(System.Windows.Size)">
+            <summary>Positions elements and determines a size for the ThumbnailImage
+            </summary>
+            <param name="finalSize">The final area within the parent that this element should use to arrange itself and its children.</param>
+            <returns>The actual size used.</returns>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Measures the size in layout required for child elements and determines a size for the Image.
+            </summary>
+            <param name="availableSize">The available size that this element can give to child elements. 
+            Infinity can be specified as a value to indicate that the element will size to whatever content is available.</param>
+            <returns>
+            The size that this element determines it needs during layout, based on its calculations of child element sizes.
+            </returns>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.InitialiseThumbnail(System.IntPtr)">
+            <summary>Initialises the thumbnail image
+            </summary>
+            <param name="source">The source.</param>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.ReleaseThumbnail">
+            <summary>Releases the thumbnail
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.Thumbnail_LayoutUpdated(System.Object,System.EventArgs)">
+            <summary>Handles the LayoutUpdated event of the Thumbnail image
+            Actually, we really just ask Windows to paint us at our new size...
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.Thumbnail_Unloaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>Handles the Unloaded event of the Thumbnail control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Huddled.Interop.Vista.ThumbnailImage.UpdateThumbnail">
+            <summary>Updates the thumbnail
+            </summary>
+        </member>
+        <member name="P:Huddled.Interop.Vista.ThumbnailImage.ClientAreaOnly">
+            <summary>Gets or sets a value indicating whether to show just the client area instead of the whole Window.
+            </summary>
+            <value><c>true</c> to show just the client area; <c>false</c> to show the whole Window, chrome and all.</value>
+        </member>
+        <member name="P:Huddled.Interop.Vista.ThumbnailImage.Opacity">
+            <summary>Gets or sets the opacity factor
+            applied to the entire image when it is rendered in the user interface (UI).  
+            This is a dependency property.
+            </summary>
+            <value></value>
+            <returns>The opacity factor. Default opacity is 1.0. Expected values are between 0.0 and 1.0.</returns>
+        </member>
+        <member name="P:Huddled.Interop.Vista.ThumbnailImage.WindowSource">
+            <summary>Gets or sets the Window source
+            </summary>
+            <value>The Window source.</value>
+        </member>
+        <member name="T:Huddled.Wpf.NativeBehavior">
+            <summary>A behavior based on hooking a window message</summary>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehavior.AddTo(System.Windows.Window)">
+            <summary>
+            Called when this behavior is initially hooked up to an initialized <see cref="T:System.Windows.Window"/>
+            <see cref="T:Huddled.Wpf.NativeBehavior"/> implementations may override this to perfom actions
+            on the actual window (the Chrome behavior uses this to change the template)
+            </summary>
+            <remarks>Implementations should NOT depend on this being exectued before 
+            the Window is SourceInitialized, and should use a WeakReference if they need 
+            to keep track of the window object...
+            </remarks>
+            <param name="window"></param>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehavior.RemoveFrom(System.Windows.Window)">
+            <summary>
+            Called when this behavior is unhooked from a <see cref="T:System.Windows.Window"/>
+            <see cref="T:Huddled.Wpf.NativeBehavior"/> implementations may override this to perfom actions
+            on the actual window.
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehavior.GetHandlers">
+            <summary>
+            Gets the <see cref="T:System.Collections.Generic.KeyValuePair`2"/>s for this behavior 
+            (one for each Window Message you need to handle)
+            </summary>
+            <value>A collection of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> objects.</value>
+        </member>
+        <member name="F:Huddled.Wpf.CustomChrome._weakWindow">
+            <summary>A reference to the Window for which the chrome is being modified.</summary>
+        </member>
+        <member name="F:Huddled.Wpf.CustomChrome._hwnd">
+            <summary>Underlying HWND for the Window.</summary>
+        </member>
+        <member name="F:Huddled.Wpf.CustomChrome._template">
+            <summary>Template for chromeless window.</summary>
+        </member>
+        <member name="F:Huddled.Wpf.CustomChrome._templatePartBorder">
+            <summary>Border for the Window template, obtained when the template is applied.</summary>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome.GetHandlers">
+            <summary>
+            Default constructor usable by XAML.
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome.AddTo(System.Windows.Window)">
+            <summary>
+            Called when this behavior is initially hooked up to a <see cref="T:System.Windows.Window"/>
+            <see cref="T:Huddled.Wpf.NativeBehavior"/> implementations may override this to perfom actions
+            on the actual window (the Chrome behavior uses this to change the template)
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome.OnWindowSourceInitialized(System.Object,System.EventArgs)">
+            <summary>
+            Subclass the HWND to handle the NC messages and start listening for DWM changes.
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome.RemoveFrom(System.Windows.Window)">
+            <summary>
+            Called when this behavior is unhooked from a <see cref="T:System.Windows.Window"/>
+            <see cref="T:Huddled.Wpf.NativeBehavior"/> implementations may override this to perfom actions
+            on the actual window.
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome._OnPropertyChangedThatRequiresRepaint(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Generic DP callback.
+            Most dependency properties affect the Window in a way that requires it to be repainted for the new property to visibly take effect.
+            </summary>
+            <param name="d">The CustomChrome object</param>
+            <param name="e">Old and New values are compared for equality to short-circuit the redraw.</param>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome._CoerceNonNegativeDouble(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Generic DP coersion.  There are several properties of type Double that only can't be negative.
+            </summary>
+            <param name="d">The CustomChrome object</param>
+            <param name="value">The double that shouldn't be negative.</param>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome.ShowSystemMenu(System.Windows.Point)">
+            <summary>Display the system menu at a specified location.</summary>
+            <param name="screenLocation">The location to display the system menu, in logical screen coordinates.</param>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome._ModifyStyle(Huddled.Interop.NativeMethods.WindowStyles,Huddled.Interop.NativeMethods.WindowStyles)">
+            <summary>Add and remove a native WindowStyles from the HWND.</summary>
+            <param name="removeStyle">The styles to be removed.  These can be bitwise combined.</param>
+            <param name="addStyle">The styles to be added.  These can be bitwise combined.</param>
+            <returns>Whether the styles of the HWND were modified as a result of this call.</returns>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome._GetHwndState">
+            <summary>
+            Get the WindowState as the native HWND knows it to be.  This isn't necessarily the same as what Window thinks.
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.CustomChrome._UpdateSystemMenu(System.Nullable{System.Windows.WindowState})">
+            <summary>
+            Update the items in the system menu based on the current, or assumed, WindowState.
+            </summary>
+            <param name="assumeState">
+            The state to assume that the Window is in.  This can be null to query the Window's state.
+            </param>
+            <remarks>
+            We want to update the menu while we have some control over whether the caption will be repainted.
+            </remarks>
+        </member>
+        <member name="F:Huddled.Wpf.CustomChrome._HitTestBorders">
+            <summary>
+            Matrix of the HT values to return when responding to NC window messages.
+            </summary>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.Target">
+            <summary>Gets or sets the Window that is the target of this command
+            </summary>
+            <value>The Window.</value>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.UseGlassFrame">
+            <summary>
+            Get or set whether to use the glass frame if it's available.
+            </summary>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.IsGlassEnabled">
+            <summary>
+            Get whether glass is enabled by the system and whether it hasn't been turned off by setting UseGlassFrame="False"
+            </summary>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.IsGlassAvailable">
+            <summary>
+            Get whether glass is enabled by the system and whether it hasn't been turned off by setting UseGlassFrame="False"
+            </summary>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.CaptionHeight">
+            <summary>The extent of the top of the window to treat as the caption.</summary>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.ResizeBorder">
+            <summary>Get the bounds of the resize grips on the Window.</summary>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.ClientBorderThickness">
+            <summary>
+            Thickness to extend the glass frame, when it's available.
+            </summary>
+            <remarks>
+            A thickness with all sides equal to -1 will extend the glass frame fully into the Window.
+            </remarks>
+        </member>
+        <member name="P:Huddled.Wpf.CustomChrome.CornerRadius">
+            <summary>
+            Get or set the radius of rounded corners on the window.
+            </summary>
+            <remarks>
+            This affects all four corners of the window.
+            Setting this to large values can potentially obscure parts of the Window's content.
+            Setting this to zero, or setting RoundCorners="False", will affect square corners on the Window.
+            </remarks>
+        </member>
+        <member name="F:Huddled.Wpf.HotkeysBehavior._weakWindow">
+            <summary>
+            A reference to the Window this command is for
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.HotkeysBehavior._windowHandle">
+            <summary>
+            The Window Handle for the Window we're managing
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.HotkeysBehavior._hwndSource">
+            <summary>
+            The Hwnd Presentation source fo the Window we're managing
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.HotkeysBehavior._entries">
+            <summary>
+            The collection of registered hotkeys
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.HotkeysBehavior._isInitialized">
+            <summary>
+            Whether the window has been SourceInitialized 
+            and the Hotkeys registered
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.HotkeysBehavior._keysPending">
+            <summary>
+            The collection of hotkeys that are waiting to be registered
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Huddled.Wpf.HotkeysBehavior"/> class.
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.OnKeyCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Handles changes to the key collection so new items can be registered, and old ones unregistered.
+            </summary>
+            <param name="sender">The KeyCollection.</param>
+            <param name="nccea">The <see cref="T:System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.GetHandlers">
+            <summary>
+            Gets the <see cref="T:System.Collections.Generic.KeyValuePair`2"/>s for this behavior 
+            (one for each Window Message you need to handle)
+            </summary>
+            <value>A collection of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> objects.</value>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.AddTo(System.Windows.Window)">
+            <summary>
+            Called when this behavior is initially hooked up to a <see cref="T:System.Windows.Window"/>
+            <see cref="T:Huddled.Wpf.NativeBehavior"/> implementations may override this to perfom actions
+            on the actual window (the Chrome behavior uses this to change the template)
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.RemoveFrom(System.Windows.Window)">
+            <summary>
+            Called when this behavior is unhooked from a <see cref="T:System.Windows.Window"/>
+            <see cref="T:Huddled.Wpf.NativeBehavior"/> implementations may override this to perfom actions
+            on the actual window.
+            </summary>
+            <param name="window"></param>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.OnHotkeyPressed(System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>
+            Handles the WM_HOTKEY message
+            </summary>
+            <param name="wParam">The wParam.</param>
+            <param name="lParam">The lParam.</param>
+            <param name="handled">Set to true if the message was handled, false otherwise</param>
+            <returns>IntPtr.Zero</returns>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.OnWindowSourceInitialized(System.Object,System.EventArgs)">
+            <summary>
+            Handles the SourceInitialized event of the Window to perform registration of hotkeys.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.RegisterHotkey(System.Windows.Input.KeyBinding)">
+            <summary>
+            Registers the <see cref="T:System.Windows.Input.KeyBinding"/> as a global hotkey.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.RegisterHotkey(System.Int32,System.Windows.Input.Key,System.Windows.Input.ModifierKeys)">
+            <summary>
+            Registers the <see cref="T:System.Windows.Input.Key"/> and <see cref="T:System.Windows.Input.ModifierKeys"/> as a global hotkey
+            </summary>
+            <param name="id">The id.</param>
+            <param name="key">The key.</param>
+            <param name="modifiers">The modifiers.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.UnregisterHotkey(System.Windows.Input.KeyBinding)">
+            <summary>
+            Unregisters the specified <see cref="T:System.Windows.Input.KeyBinding"/>.
+            </summary>
+            <param name="key">The key.</param>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.UnregisterHotkey(System.Int32)">
+            <summary>
+            Unregisters the <see cref="T:System.Windows.Input.KeyBinding"/> by id.
+            </summary>
+            <param name="nativeId">The native id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Wpf.HotkeysBehavior.AddModifier(System.Windows.Input.ModifierKeys)">
+            <summary>
+            <para>
+            Adds helper method which adds a modifier to a <see cref="T:System.Windows.Input.ModifierKeys"/> flag.
+            Keys are added in this order:
+            <see cref="F:System.Windows.Input.ModifierKeys.Windows"/>, <see cref="F:System.Windows.Input.ModifierKeys.Shift"/>,
+            <see cref="F:System.Windows.Input.ModifierKeys.Control"/>, <see cref="F:System.Windows.Input.ModifierKeys.Alt"/>
+            </para><para>
+            If all modifiers are set, <see cref="F:System.Windows.Input.ModifierKeys.None"/> is returned.
+            Note that the first one missing is added, so if you pass in: 
+            <see cref="F:System.Windows.Input.ModifierKeys.Windows"/> | <see cref="F:System.Windows.Input.ModifierKeys.Control"/>, then
+            <see cref="F:System.Windows.Input.ModifierKeys.Windows"/> | <see cref="F:System.Windows.Input.ModifierKeys.Control"/> | <see cref="F:System.Windows.Input.ModifierKeys.Shift"/> 
+            is returned...
+            </para>
+            </summary>
+            <param name="mk">The mk.</param>
+            <returns>A <see cref="T:System.Windows.Input.ModifierKeys"/></returns>
+        </member>
+        <member name="P:Huddled.Wpf.HotkeysBehavior.IsInitialized">
+            <summary>
+            Gets a value indicating whether this instance has been initialized.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is initialized; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Huddled.Wpf.HotkeysBehavior.Target">
+            <summary>Gets or sets the Window that is the target of this command
+            </summary>
+            <value>The Window.</value>
+        </member>
+        <member name="P:Huddled.Wpf.HotkeysBehavior.Hotkeys">
+            <summary>
+            Gets the hotkeys.
+            </summary>
+            <value>The hotkeys.</value>
+        </member>
+        <member name="P:Huddled.Wpf.HotkeysBehavior.UnregisteredKeys">
+            <summary>
+            Gets the unregistered keys.
+            </summary>
+            <value>The unregistered keys.</value>
+        </member>
+        <member name="T:Huddled.Interop.Keyboard.Extensions">
+            <summary>
+            Extension methods for working with Keyboards and KeyEvents
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.Keyboard.Extensions.ToKeyInfo(System.Windows.Input.KeyEventArgs)">
+            <summary>Create a KeyInfo from a <see cref="T:System.Windows.Input.KeyEventArgs"/>
+            </summary>
+            <param name="e">The KeyEventArgs</param>
+            <returns>A KeyInfo struct</returns>
+        </member>
+        <member name="M:Huddled.Interop.Keyboard.Extensions.GetChar(System.Int32)">
+            <summary>Get the char from a VirtualKey -- MUST be called within the keyboard event handler.
+            </summary>
+            <param name="vk">VirtualKey code</param>
+            <returns>the character represented by the VirtualKey</returns>
+        </member>
+        <member name="M:Huddled.Interop.Keyboard.Extensions.GetControlKeyStates(System.Windows.Input.KeyboardDevice)">
+            <summary>
+            Gets the control key states.
+            </summary>
+            <param name="kb">The <see cref="T:System.Windows.Input.KeyboardDevice"/>.</param>
+            <returns>The <see cref="T:System.Management.Automation.Host.ControlKeyStates"/> Flags</returns>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods">
+            <summary>
+            An addendum to the Win32.NativeMethods class with all the methods which are needed by the Vista.NativeMethods class
+            Placed here for portability between projects, and to assign blame ;-)
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.GetWindow(System.IntPtr,Huddled.Interop.NativeMethods.GetWindowCommand)">
+            <summary> The GetWindow function retrieves a handle to a Window 
+            that has the specified relationship (Z-Order or owner) to the specified Window.
+            </summary>
+            <param name="windowHandle">
+            Handle to a Window. The Window handle retrieved is relative to this Window, 
+            based on the value of the command parameter.
+            </param>
+            <param name="command">
+            Specifies the relationship between the specified Window and the Window 
+            whose handle is to be retrieved.
+            </param>
+            <returns>
+            If the function succeeds, the return value is a Window handle. 
+            If no Window exists with the specified relationship to the specified Window, 
+            the return value is IntPtr.Zero. 
+            To get extended error information, call GetLastError.
+            </returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.ShowWindow(System.IntPtr,Huddled.Interop.NativeMethods.ShowWindowCommand)">
+            <summary>
+            The ShowWindow function sets the specified Window's show state.
+            </summary>
+            <param name="windowHandle">
+            Handle to the Window.
+            </param>
+            <param name="command">
+            Specifies how the Window is to be shown. This parameter is ignored 
+            the first time an application calls <see cref="M:Huddled.Interop.NativeMethods.ShowWindow(System.IntPtr,Huddled.Interop.NativeMethods.ShowWindowCommand)"/>, if the program that
+            launched the application provides a <see cref="!:StartupInfo"/> structure. 
+            Otherwise, the first time ShowWindow is called, the value should be the value 
+            obtained by the WinMain function in its nCmdShow parameter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.TryExtendFrameIntoClientArea(System.Windows.Window)">
+            <summary>
+            Attempt to extend the Glass frame into client area of a <see cref="T:System.Windows.Window"/>, 
+            using it's <see cref="P:System.Windows.Controls.Control.BorderThickness"/> as the frame areas.
+            </summary>
+            <param name="window">The window.</param>
+            <returns>True if attempt succeeded, False otherwise</returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.TryExtendFrameIntoClientArea(System.Windows.Window,System.Windows.Thickness)">
+            <summary>
+            Attempt to extend the Glass frame into client area of a <see cref="T:System.Windows.Window"/>, 
+            with the specified Thickness for the frame margin
+            </summary>
+            <param name="window">The window.</param>
+            <param name="margin">The margin.</param>
+            <returns>True if attempt succeeded, False otherwise</returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.ExtendFrameIntoClientArea(System.IntPtr,System.Windows.Thickness)">
+            <summary>Extends the frame into client area of a window by it's Handle,
+            using the specified <see cref="T:System.Windows.Thickness"/> as the frame margin
+            </summary>
+            <param name="hwnd">The Window.</param>
+            <param name="margin">The margin.</param>
+            <returns><c>True</c> if the function succeeded, <c>False</c> otherwise.</returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.EnableBlurBehind(System.Windows.Window,System.Boolean,System.IntPtr,System.Boolean)">
+            <summary>
+            Toggle the Blurred glass on the specified window region of the client area of a Window.
+            </summary>
+            <param name="window">The window.</param>
+            <param name="enable">if set to <c>true</c> enable, otherwise disable.</param>
+            <param name="region">A pointer to the region to to enable blur on, or IntPtr.Zero for the whole window</param>
+            <param name="transition">If set to <c>true</c> transition the blur on Maximized.</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.EnableBlurBehind(System.Windows.Window,System.Boolean,System.IntPtr)">
+            <summary>
+            Toggle the Blurred glass on the specified window region of the client area of a Window, without a transition
+            </summary>
+            <param name="window">The window.</param>
+            <param name="enable">if set to <c>true</c> enable, otherwise disable.</param>
+            <param name="region">A pointer to the region to to enable blur on, or IntPtr.Zero for the whole window</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.EnableBlurBehind(System.Windows.Window,System.Boolean)">
+            <summary>
+            Toggle the Blurred glass behind the entire client area of a Window, without a transition
+            </summary>
+            <param name="window">The window.</param>
+            <param name="enable">if set to <c>true</c> enable, otherwise disable.</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.EnableBlurBehind(System.Windows.Window)">
+            <summary>
+            Enable the Blurred glass behind the entire client area of a Window without a transition.
+            </summary>
+            <param name="window">The window.</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.ToUnicode(System.UInt32,System.UInt32,System.Byte[],System.Text.StringBuilder,System.Int32,System.UInt32)">
+            <summary>The ToUnicode function translates the specified virtual-key code and keyboard state 
+            to the corresponding Unicode character or characters. To specify a handle to the keyboard layout 
+            to use to translate the specified code, use the ToUnicodeEx function.
+            </summary>
+            <param name="wVirtKey">Specifies the virtual-key code to be translated.</param>
+            <param name="wScanCode">Specifies the hardware scan code of the key to be translated. 
+            The high-order bit of this value is set if the key is up.</param>
+            <param name="lpKeyState">Pointer to a 256-byte array that contains the current keyboard state.
+                Each element (byte) in the array contains the state of one key. 
+                If the high-order bit of a byte is set, the key is down.</param>
+            <param name="pwszBuff">Pointer to the buffer that receives the translated Unicode character 
+                or characters. However, this buffer may be returned without being null-terminated 
+                even though the variable name suggests that it is null-terminated.
+            </param>
+            <param name="cchBuff">Specifies the size, in wide characters, of the buffer pointed to by the pwszBuff parameter.</param>
+            <param name="wFlags">Specifies the behavior of the function. If bit 0 is set, a menu is active. Bits 1 through 31 are reserved.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.ToAscii(System.UInt32,System.UInt32,System.Byte[],System.Text.StringBuilder,System.UInt32)">
+            <summary> The ToAscii function translates the specified virtual-key code and keyboard state 
+            to the corresponding character or characters. The function translates the code using 
+            the input language and physical keyboard layout identified by the keyboard layout handle.
+            </summary>
+            <param name="uVirtKey">Specifies the virtual-key code to be translated.</param>
+            <param name="uScanCode">Specifies the hardware scan code of the key to be translated. 
+            The high-order bit of this value is set if the key is up (not pressed). </param>
+            <param name="lpKeyState">Pointer to a 256-byte array that contains the current keyboard state. 
+            Each element (byte) in the array contains the state of one key. If the high-order bit of a byte is set, 
+            the key is down (pressed). The low bit, if set, indicates that the key is toggled on. In this function, 
+            only the toggle bit of the CAPS LOCK key is relevant. The toggle state of the NUM LOCK and SCROLL LOCK keys is ignored.</param>
+            <param name="lpChar">Pointer to the buffer that receives the translated character or characters.</param>
+            <param name="uFlags">Specifies whether a menu is active. This parameter must be 1 if a menu is active, or 0 otherwise.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Huddled.Interop.NativeMethods.IsCompositionEnabled">
+            <summary>Gets a value indicating whether Window Composition is enabled.
+            </summary>
+            <value>
+            	<c>true</c> if composition is enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.ShowWindowCommand">
+            <summary>
+            Provides the enumeration values for calls to <see cref="M:Huddled.Interop.NativeMethods.ShowWindow(System.IntPtr,Huddled.Interop.NativeMethods.ShowWindowCommand)"/> or <see cref="!:NativeMethods.ShowWindowAsync"/>
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Hide">
+            <summary>
+            Hides the Window and activates another Window.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Normal">
+            <summary>
+            Activates and displays a Window. If the Window is minimized or 
+            maximized, the system restores it to its original size and position.
+            An application should specify this flag when displaying the Window 
+            for the first time.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowMinimized">
+            <summary>
+            Activates the Window and displays it as a minimized Window.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Maximize">
+            <summary>
+            Maximizes the specified Window.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowMaximized">
+            <summary>
+            Activates the Window and displays it as a maximized Window.
+            </summary>       
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowNoActivate">
+            <summary>
+            Displays a Window in its most recent size and position. This value 
+            is similar to <see cref="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Normal"/>, except 
+            the Window is not actived.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Show">
+            <summary>
+            Activates the Window and displays it in its current size and position. 
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Minimize">
+            <summary>
+            Minimizes the specified Window and activates the next top-level 
+            Window in the Z order.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowMinNoActive">
+            <summary>
+            Displays the Window as a minimized Window. This value is similar to
+            <see cref="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowMinimized"/>, except the 
+            Window is not activated.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowNA">
+            <summary>
+            Displays the Window in its current size and position. This value is 
+            similar to <see cref="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Show"/>, except the 
+            Window is not activated.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.Restore">
+            <summary>
+            Activates and displays the Window. If the Window is minimized or 
+            maximized, the system restores it to its original size and position. 
+            An application should specify this flag when restoring a minimized Window.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ShowDefault">
+            <summary>
+            Sets the show state based on the SW_* value specified in the 
+            STARTUPINFO structure passed to the CreateProcess function by the 
+            program that started the application.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ShowWindowCommand.ForceMinimize">
+            <summary>
+             <b>Windows 2000/XP:</b> Minimizes a Window, even if the thread 
+            that owns the Window is not responding. This flag should only be 
+            used when minimizing windows from a different thread.
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.GetWindowCommand">
+            <summary>
+            Provides the enumeration values for calls to <see cref="M:Huddled.Interop.NativeMethods.GetWindow(System.IntPtr,Huddled.Interop.NativeMethods.GetWindowCommand)"/>
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.First">
+            <summary>
+            The retrieved handle identifies the Window of the same type that is highest in the Z order. If the specified Window is a topmost Window, the handle identifies the topmost Window that is highest in the Z order. If the specified Window is a top-level Window, the handle identifies the top-level Window that is highest in the Z order. If the specified Window is a child Window, the handle identifies the sibling Window that is highest in the Z order.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.Last">
+            <summary>
+            The retrieved handle identifies the Window of the same type that is lowest in the Z order. If the specified Window is a topmost Window, the handle identifies the topmost Window that is lowest in the Z order. If the specified Window is a top-level Window, the handle identifies the top-level Window that is lowest in the Z order. If the specified Window is a child Window, the handle identifies the sibling Window that is lowest in the Z order.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.Next">
+            <summary>
+            The retrieved handle identifies the Window below the specified Window in the Z order. If the specified Window is a topmost Window, the handle identifies the topmost Window below the specified Window. If the specified Window is a top-level Window, the handle identifies the top-level Window below the specified Window. If the specified Window is a child Window, the handle identifies the sibling Window below the specified Window. 
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.Previous">
+            <summary>
+            The retrieved handle identifies the Window above the specified Window in the Z order. If the specified Window is a topmost Window, the handle identifies the topmost Window above the specified Window. If the specified Window is a top-level Window, the handle identifies the top-level Window above the specified Window. If the specified Window is a child Window, the handle identifies the sibling Window above the specified Window.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.Owner">
+            <summary>
+            The retrieved handle identifies the specified Window's owner Window, if any.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.Child">
+            <summary>
+            The retrieved handle identifies the child Window at the top of the Z order, if the specified Window is a parent Window; otherwise, the retrieved handle is NULL. The function examines only child windows of the specified Window. It does not examine descendant windows.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.GetWindowCommand.Popup">
+            <summary>
+            Windows 2000/XP: The retrieved handle identifies the enabled popup Window owned by the specified Window (the search uses the first such Window found using GW_HWNDNEXT); otherwise, if there are no enabled popup windows, the retrieved handle is that of the specified Window.
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowMessage">
+            <summary>Window message values, WM_*
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowPositionFlags">
+            <summary>SetWindowPos options
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.HT">
+            <summary>
+            Non-client hit test values, HT*
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowLongValues">
+            <summary>
+            GetWindowLongPtr values, GWL_*
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.SPI">
+            <summary>
+            SystemParameterInfo values, SPI_*
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowStyles">
+            <summary>
+            WindowStyles values, WS_*
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.ExtendedWindowStyles">
+            <summary>
+            Window style extended values, WS_EX_*
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.DeviceCap">
+            <summary>
+            GetDeviceCaps nIndex values.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.DeviceCap.LOGPIXELSX">
+            <summary>
+            Logical pixels inch in X
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.DeviceCap.LOGPIXELSY">
+            <summary>
+            Logical pixels inch in Y
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.EnableMenuItemOptions">
+            <summary>
+            EnableMenuItem uEnable values, MF_*
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.EnableMenuItemOptions.DOES_NOT_EXIST">
+            <summary>
+            Possible return value for EnableMenuItem
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WINDOWTHEMEATTRIBUTETYPE">
+            <summary>Specifies the type of visual style attribute to set on a window.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT">
+            <summary>Non-client area window attributes will be set.</summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowThemeNonClientAttributes">
+            <summary>
+            WindowThemeNonClientAttributes
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeNonClientAttributes.NoDrawCaption">
+            <summary>Prevents the window caption from being drawn.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeNonClientAttributes.NoDrawIcon">
+            <summary>Prevents the system icon from being drawn.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeNonClientAttributes.NoSysMenu">
+            <summary>Prevents the system icon menu from appearing.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeNonClientAttributes.NoMirrorHelp">
+            <summary>Prevents mirroring of the question mark, even in right-to-left (RTL) layout.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeNonClientAttributes.ValidBits">
+            <summary> A mask that contains all the valid bits.</summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.SetWindowPositionOptions">
+            <summary>
+            SetWindowPos options
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.ShowWindowOptions">
+            <summary>
+            ShowWindow options
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.SystemMenuItem.IsSecure">
+            <summary>
+            SCF_ISSECURE
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowPosition">
+            <summary>lParam for WindowPositionChanging
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.Margins">
+            <summary>A Win32 Margins structure for the DWM api calls.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.Margins.#ctor(System.Windows.Thickness)">
+            <summary>
+            Create a Device Margins struct from a (DPI-aware) Logical Thickness
+            </summary>
+            <param name="t">The Thickness to convert</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.ApiRect.ToRectangle">
+            <summary>
+            Convert to a <see cref="T:System.Drawing.Rectangle"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeMethods.ApiRect.ToRect">
+            <summary>
+            Convert to a <see cref="T:System.Windows.Rect"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.WindowThemeAttributes">
+            <summary>Defines options that are used to set window visual style attributes.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeAttributes.dwFlags">
+            <summary>
+            A combination of Flags that modify window visual style attributes.
+            Can be a combination of the WindowThemeNonClientAttributes constants.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.WindowThemeAttributes.dwMask">
+            <summary>
+            A bitmask that describes how the values specified in Flags should be applied.
+            If the bit corresponding to a value in Flags is 0, that flag will be removed.
+            If the bit is 1, the flag will be added.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ThumbnailFlags.RectDestination">
+            <summary>
+            Indicates a value for fSourceClientAreaOnly has been specified.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ThumbnailFlags.RectSource">
+            <summary>
+            Indicates a value for rcSource has been specified.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ThumbnailFlags.Opacity">
+            <summary>
+            Indicates a value for opacity has been specified.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ThumbnailFlags.Visible">
+            <summary>
+            Indicates a value for fVisible has been specified.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.ThumbnailFlags.SourceClientAreaOnly">
+            <summary>
+            Indicates a value for fSourceClientAreaOnly has been specified.
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeMethods.MapType">
+            <summary>The set of valid MapTypes used in MapVirtualKey
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.MapType.MAPVK_VK_TO_VSC">
+            <summary>uCode is a virtual-key code and is translated into a scan code.
+            If it is a virtual-key code that does not distinguish between left- and
+            right-hand keys, the left-hand scan code is returned.
+            If there is no translation, the function returns 0.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.MapType.MAPVK_VSC_TO_VK">
+            <summary>uCode is a scan code and is translated into a virtual-key code that
+            does not distinguish between left- and right-hand keys. If there is no
+            translation, the function returns 0.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.MapType.MAPVK_VK_TO_CHAR">
+            <summary>uCode is a virtual-key code and is translated into an unshifted
+            character value in the low-order word of the return value. Dead keys (diacritics)
+            are indicated by setting the top bit of the return value. If there is no
+            translation, the function returns 0.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.MapType.MAPVK_VSC_TO_VK_EX">
+            <summary>Windows NT/2000/XP: uCode is a scan code and is translated into a
+            virtual-key code that distinguishes between left- and right-hand keys. If
+            there is no translation, the function returns 0.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="F:Huddled.Interop.NativeMethods.MapType.MAPVK_VK_TO_VSC_EX">
+            <summary>Not currently documented
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="T:Huddled.Interop.Windows.WindowSwitcher">
+            <summary>
+            An extension class with methods to simulate Alt+Tab ...
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.ConsoleInteropException">
+            <summary>
+            A custom exception class to make it easy to trap initialization errors.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.ConsoleInteropException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Huddled.Interop.ConsoleInteropException"/> class.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.ConsoleInteropException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Huddled.Interop.ConsoleInteropException"/> 
+            class with the specified message
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:Huddled.Interop.ConsoleInteropException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Huddled.Interop.ConsoleInteropException"/> 
+            class with the specified message and innerException
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:Huddled.Interop.NativeConsole">
+            <summary>
+            A wrapper around AllocConsole, with some nice eventing to handle
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._initializationException">
+            <summary> Make sure we don't do anything until we're successfully initialized.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._initialized">
+            <summary> Track if we've been initialized.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._disposed">
+            <summary> Track whether Dispose has been called.</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._handle">
+            <summary> A nice handle to our console Window</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._process">
+            <summary> And our process</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._outputThread">
+            <summary> Our two threads</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._errorThread">
+            <summary> Our two threads</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdOutRead">
+            <summary> and the original handles to the console</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdOutWrite">
+            <summary> and the original handles to the console</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdInRead">
+            <summary> and the original handles to the console</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdInWrite">
+            <summary> and the original handles to the console</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdErrRead">
+            <summary> and the original handles to the console</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdErrWrite">
+            <summary> and the original handles to the console</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdOutReadCopy">
+            <summary> and the copy handles ...</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdInWriteCopy">
+            <summary> and the copy handles ...</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole._stdErrReadCopy">
+            <summary> and the copy handles ...</summary>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.#ctor">
+            <summary>Creates and initializes a new instance of the <see cref="T:Huddled.Interop.NativeConsole"/> class.</summary>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.#ctor(System.Boolean)">
+            <summary>Creates and a new instance of the <see cref="T:Huddled.Interop.NativeConsole"/> class 
+            and optionally initializes it.</summary>
+            <param name="initialize">Whether to initialize the console or not</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.Initialize">
+            <summary>
+            Initializes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.Finalize">
+            <summary>Releases unmanaged resources and performs other cleanup operations 
+            before the <see cref="T:System.Console"/> is reclaimed by garbage collection.
+            Use C# destructor syntax for finalization code.
+            This destructor will run only if the Dispose method does not get called.
+            </summary>
+            <remarks>Do not provide destructors in types derived from this class.</remarks>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.Dispose">
+            <summary>
+            Implement IDisposable
+            Performs application-defined tasks associated with 
+            freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.WriteInput(System.String)">
+            <summary>
+            Writes the input.
+            </summary>
+            <param name="input">The input.</param>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.Dispose(System.Boolean)">
+             <summary>
+             Handles actual cleanup actions, under two different scenarios
+             </summary>
+             <param name="disposing">if set to <c>true</c> we've been called directly or 
+             indirectly by user code and can clean up both managed and unmanaged resources.
+             Otherwise it's been called from the destructor/finalizer and we can't
+             reference other managed objects (they might already be disposed).
+            </param>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.ErrorThread">
+            <summary>
+            The ErrorThread ThreadStart delegate
+            </summary>
+        </member>
+        <member name="M:Huddled.Interop.NativeConsole.OutputThread">
+            <summary>
+            The OutputThread ThreadStart delegate
+            </summary>
+        </member>
+        <member name="E:Huddled.Interop.NativeConsole.WriteError">
+            <summary>Occurs when we write an error line.</summary>
+        </member>
+        <member name="E:Huddled.Interop.NativeConsole.WriteOutput">
+            <summary>Occurs when we write an output line.</summary>
+        </member>
+        <member name="P:Huddled.Interop.NativeConsole.InitializationException">
+            <summary>
+            Hold the initialization exception 
+            if initialization failed during construction
+            otherwise, null.
+            </summary>
+        </member>
+        <member name="P:Huddled.Interop.NativeConsole.IsInitialized">
+            <summary>
+            Determine whether the Initialize() method has been called successfully.
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeConsole.NativeMethods">
+            <summary>
+            The API/Interop/PInvoke methods for the NativeConsole 
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole.NativeMethods.StdHandle.InputHandle">
+            <summary>
+            The standard input device
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole.NativeMethods.StdHandle.OutputHandle">
+            <summary>
+            The standard output device.
+            </summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole.NativeMethods.StdHandle.ErrorHandle">
+            <summary>
+            The standard error device.
+            </summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeConsole.OutputEventArgs">
+            <summary>The arguments to the output events</summary>
+        </member>
+        <member name="F:Huddled.Interop.NativeConsole.OutputEventArgs.Text">
+            <summary>The text to be output</summary>
+        </member>
+        <member name="T:Huddled.Interop.NativeConsole.OutputDelegate">
+            <summary>The delegate for the output events</summary>
+        </member>
+        <member name="M:Huddled.Wpf.QuakeMode.OnGetMinMaxInfo(System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>Handles the GetMinMaxInfo Window Message.
+            </summary>
+            <param name="wParam">The wParam.</param>
+            <param name="lParam">The lParam.</param>
+            <param name="handled">Whether or not this message has been handled ... (we don't change it)</param>
+            <returns>IntPtr.Zero</returns>      
+        </member>
+        <member name="M:Huddled.Wpf.DpiHelper.LogicalPixelsToDevice(System.Windows.Point)">
+            <summary>
+            Convert a point in device independent pixels (1/96") to a point in the system coordinates.
+            </summary>
+            <param name="logicalPoint">A point in the logical coordinate system.</param>
+            <returns>Returns the parameter converted to the system's coordinates.</returns>
+        </member>
+        <member name="M:Huddled.Wpf.DpiHelper.DevicePixelsToLogical(System.Windows.Point)">
+            <summary>
+            Convert a point in system coordinates to a point in device independent pixels (1/96").
+            </summary>
+            <param name="devicePoint">A point in the physical coordinate system.</param>
+            <returns>Returns the parameter converted to the device independent coordinate system.</returns>
+        </member>
+        <member name="M:Huddled.Wpf.DpiHelper.DeviceRectToLogical(System.Windows.Rect)">
+            <summary>
+            Scale a rectangle in system coordinates to a rectangle in device independent pixels (1/96").
+            </summary>
+            <param name="deviceRectangle">A rectangle in the physical coordinate system.</param>
+            <returns>Returns the parameter converted to the device independent coordinate system.</returns>
+        </member>
+        <member name="F:Huddled.Wpf.NativeBehaviors._owner">
+            <summary>
+            The reference to the Target or "owner" window 
+            should be accessed through the <see cref="!:NativeBehaviors.Window"/> property.
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:Huddled.Wpf.NativeBehaviors"/> class
+            with no behaviors and no owner window.
+            </summary>
+            <remarks>We need this constructor for DesignMode support</remarks>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.#ctor(System.Windows.Window)">
+            <summary>Initializes a new instance of the <see cref="T:Huddled.Wpf.NativeBehaviors"/> class
+            with the specified target <see cref="T:System.Windows.Window"/> 
+            and <em>no</em> <see cref="T:Huddled.Wpf.NativeBehavior"/>s.
+            </summary>
+            <param name="target">The Window to be affected by this collection of behaviors</param>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.WndProc(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>
+            A Window Process Message Handler delegate
+            which processes all the registered message mappings
+            </summary>
+            <param name="hwnd">The window handle.</param>
+            <param name="msg">The message.</param>
+            <param name="wParam">The wParam.</param>
+            <param name="lParam">The lParam.</param>
+            <param name="handled">Set to true if the message has been handled</param>
+            <returns>IntPtr.Zero</returns>
+        </member>
+        <member name="F:Huddled.Wpf.NativeBehaviors.NativeBehaviorsProperty">
+            <summary>
+            The Behaviors DependencyProperty is the collection of WindowMessage-based behaviors
+            </summary>
+            <remarks>
+            Making the DependencyProperty Private or Internal means that the XAML parser can't see it.
+            However, the XAML parser *can* see the Public "GetBehaviors" and/or "SetBehaviors" methods
+            So when you use <code><![CDATA[<wpf:Native.Behaviors />]]></code> in XAML, it will use the 
+            GetBehaviors method, which gives us the opportunity to initialize the collection -- this 
+            will not work if you used the name of a public DependencyProperty.
+            </remarks>
+            <example><![CDATA[
+            <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:huddled="http://schemas.huddledmasses.org/wpf"
+                >
+                <huddled:Behaviors.Behaviors>
+                    <huddled:SnappingWindow SnapDistance="40" />
+                </huddled:Behaviors.Behaviors>
+                <Grid><Label Content="Drag this window near the screen edges"/></Grid>
+            </Window>
+            ]]></example>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.SetBehaviors(System.Windows.Window,Huddled.Wpf.NativeBehaviors)">
+            <summary>Sets the behaviors.</summary>
+            <param name="window">The window.</param>
+            <param name="behaviors">The collection of <see cref="T:Huddled.Wpf.NativeBehavior"/>s.</param>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.GetBehaviors(System.Windows.Window)">
+            <summary>Gets the behaviors.</summary>
+            <param name="window">The window.</param>
+            <returns>The collection of <see cref="T:Huddled.Wpf.NativeBehavior"/>s.</returns>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.GetNativeBehaviors(System.Windows.Window)">
+            <summary>Gets the behaviors.
+            </summary>
+            <param name="window">The window.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Huddled.Wpf.NativeBehaviors.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Handles changes to the NativeBehaviors collection, invoking the <see cref="M:Huddled.Wpf.NativeBehavior.AddTo(System.Windows.Window)"/>
+            and <see cref="M:Huddled.Wpf.NativeBehavior.RemoveFrom(System.Windows.Window)"/> methods, and adding their handlers to the list.
+            </summary>
+            <param name="nccea"></param>
+        </member>
+        <member name="P:Huddled.Wpf.NativeBehaviors.WindowHandle">
+            <summary>The HWND handle to our window</summary>
+        </member>
+        <member name="P:Huddled.Wpf.NativeBehaviors.Handlers">
+            <summary>Gets the collection of active handlers.</summary>
+            <value>A List of the mappings from <see cref="T:Huddled.Interop.NativeMethods.WindowMessage"/>s
+            to <see cref="T:Huddled.Interop.NativeMethods.MessageHandler"/> delegates.</value>
+        </member>
+        <member name="P:Huddled.Wpf.NativeBehaviors.Target">
+            <summary>Gets or Sets the target/owner window</summary>
+            <value>The <see cref="T:System.Windows.Window"/> these Native Behavrios affect.</value>
+        </member>
+        <member name="M:Huddled.Wpf.SnapToBehavior.GetHandlers">
+            <summary>
+            Gets the <see cref="T:System.Collections.Generic.KeyValuePair`2"/>s for this behavior:
+            A single mapping of a handler for WM_WINDOWPOSCHANGING.
+            </summary>
+            <returns>A collection of <see cref="T:System.Collections.Generic.KeyValuePair`2"/> objects.</returns>
+        </member>
+        <member name="M:Huddled.Wpf.SnapToBehavior.OnPreviewPositionChange(System.IntPtr,System.IntPtr,System.Boolean@)">
+            <summary>Handles the WindowPositionChanging Window Message.
+            </summary>
+            <param name="wParam">The wParam.</param>
+            <param name="lParam">The lParam.</param>
+            <param name="handled">Whether or not this message has been handled ... (we don't change it)</param>
+            <returns>IntPtr.Zero</returns>      
+        </member>
+        <member name="F:Huddled.Wpf.SnapToBehavior.SnapDistanceProperty">
+            <summary>
+            The DependencyProperty as the backing store for SnapDistance. <remarks>Just you can set it from XAML.</remarks>
+            </summary>
+        </member>
+        <member name="P:Huddled.Wpf.SnapToBehavior.SnapDistance">
+            <summary>
+            Gets or sets the snap distance.
+            </summary>
+            <value>The snap distance.</value>
+        </member>
+        <member name="T:Huddled.Wpf.WindowCommand">
+            <summary>
+            <para>A <see cref="T:Huddled.Wpf.WindowCommand"/> is a command which is <em>not</em> routed,
+            instead, they target the Window directly.</para>
+            <para>Because they are not routed, they don't have a "source", so we have to either set the Window, 
+            or pass the Window in as an argument to the Execute command. The HotkeyManager does extra magic to 
+            set the Window property, so you should inherit from <see cref="T:Huddled.Wpf.WindowCommand"/> if you want to create     
+            additional global hotkey commands that will actually work when the Window is not focused.</para>
+            <remarks>RoutedCommands can't be used as the target for a global hotkey command 
+            because they always (CanExecute == False) if the Window isn't active.</remarks>
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.#ctor">
+            <summary>Default constructor for <see cref="T:Huddled.Wpf.WindowCommand"/> leaves the Window property unitialized.
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.#ctor(System.Windows.Window)">
+            <summary>Initializes a new instance of the <see cref="T:Huddled.Wpf.WindowCommand"/> class.
+            </summary>
+            <param name="window">The Window.</param>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.IfNoHandlerOnCanExecute(System.Object,Huddled.Wpf.WindowCommand.WindowCanExecuteArgs)">
+            <summary>Determines whether this instance can execute on specified Window 
+            (or the default Window, if you pass in null).
+            </summary>
+            <param name="source">The Window.</param>
+            <returns>
+            	<c>true</c> if this instance can execute on the specified Window; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.IfNoHandlerOnExecute(System.Object,Huddled.Wpf.WindowCommand.WindowOnExecuteArgs)">
+            <summary>Executes the hotkey action on the specified Window.
+            </summary>
+            <param name="source">The Window.</param>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.CanExecute(System.Object)">
+            <summary>
+            Defines the method that determines whether the command can execute in its current state.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+            <returns>
+            true if this command can be executed; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.Execute(System.Object)">
+            <summary>
+            Defines the method to be called when the command is invoked.
+            </summary>
+            <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
+        </member>
+        <member name="P:Huddled.Wpf.WindowCommand.Window">
+            <summary>Gets or sets the Window that is the target of this command
+            </summary>
+            <value>The Window.</value>
+        </member>
+        <member name="E:Huddled.Wpf.WindowCommand.OnCanExecute">
+            <summary>
+            Occurs when we're checking if we can execute this command.
+            </summary>
+        </member>
+        <member name="E:Huddled.Wpf.WindowCommand.OnExecute">
+            <summary>
+            Occurs when we're trying to execute this command.
+            </summary>
+        </member>
+        <member name="E:Huddled.Wpf.WindowCommand.CanExecuteChanged">
+            <summary>Occurs when changes occur which affect whether or not the command should execute.
+            (Is never fired for WindowCommand).
+            </summary>
+        </member>
+        <member name="T:Huddled.Wpf.WindowCommand.WindowCommandArgs">
+            <summary>
+            EventArgs class for the Execute events 
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.WindowCommandArgs.#ctor(System.Windows.Window,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Huddled.Wpf.WindowCommand.WindowCommandArgs"/> class.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="F:Huddled.Wpf.WindowCommand.WindowCommandArgs._window">
+            <summary>
+            A reference to the Window this command is for
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.WindowCommand.WindowCommandArgs.Parameter">
+            <summary>
+            The provided parameters, if there are any (null otherwise)
+            </summary>
+        </member>
+        <member name="P:Huddled.Wpf.WindowCommand.WindowCommandArgs.Window">
+            <summary>Gets or sets the Window that is the target of this command
+            </summary>
+            <value>The Window.</value>
+        </member>
+        <member name="T:Huddled.Wpf.WindowCommand.WindowCanExecuteArgs">
+            <summary>
+            Arguments for the WindowCanExecute call
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.WindowCommand.WindowCanExecuteArgs.#ctor(System.Windows.Window,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Huddled.Wpf.WindowCommand.WindowCanExecuteArgs"/> class.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="parameter">The parameter.</param>
+        </member>
+        <member name="F:Huddled.Wpf.WindowCommand.WindowCanExecuteArgs.CanExecute">
+            <summary>
+            Should be set to TRUE if the command can execute.
+            </summary>
+        </member>
+        <member name="T:Huddled.Wpf.WindowCommand.WindowOnExecuteArgs">
+            <summary>
+            Arguments for the WindowOnExecute call
+            </summary>
+        </member>
+        <member name="T:Huddled.Wpf.WindowCommand.CanExecuteHandler">
+            <summary>Delegate for the CanExecute event</summary>
+        </member>
+        <member name="T:Huddled.Wpf.WindowCommand.ExecuteHandler">
+            <summary>Delegate for the Execute event</summary>
+        </member>
+        <member name="T:Huddled.Wpf.GlobalCommands">
+            <summary>
+            A collection of <see cref="T:Huddled.Wpf.WindowCommand"/>
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.GlobalCommands.ActivateWindow">
+            <summary>
+            An instance of a <see cref="T:Huddled.Wpf.WindowCommand"/> which activates the Window
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.GlobalCommands.CloseWindow">
+            <summary>
+            An instance of a <see cref="T:Huddled.Wpf.WindowCommand"/> which closes the Window
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.GlobalCommands.HideWindow">
+            <summary>
+            An instance of a <see cref="T:Huddled.Wpf.WindowCommand"/> which hides the Window
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.GlobalCommands.ShowWindow">
+            <summary>
+            An instance of a <see cref="T:Huddled.Wpf.WindowCommand"/> which unhides the Window
+            </summary>
+        </member>
+        <member name="F:Huddled.Wpf.GlobalCommands.ToggleWindow">
+            <summary>
+            An instance of a <see cref="T:Huddled.Wpf.WindowCommand"/> which toggles the visibility of the Window
+            </summary>
+        </member>
+        <member name="T:Huddled.Wpf.GlobalCommands.ActivateCommand">
+            <summary>
+            A <see cref="T:Huddled.Wpf.WindowCommand"/> which activates the Window
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.ActivateCommand.IfNoHandlerOnCanExecute(System.Object,Huddled.Wpf.WindowCommand.WindowCanExecuteArgs)">
+            <summary>
+            Determines whether this instance can execute on specified Window
+            (or the default Window, if you pass in null).
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.ActivateCommand.IfNoHandlerOnExecute(System.Object,Huddled.Wpf.WindowCommand.WindowOnExecuteArgs)">
+            <summary>
+            Executes the hotkey action on the specified Window.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="T:Huddled.Wpf.GlobalCommands.CloseCommand">
+            <summary>
+            A <see cref="T:Huddled.Wpf.WindowCommand"/> which closes the Window
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.CloseCommand.IfNoHandlerOnCanExecute(System.Object,Huddled.Wpf.WindowCommand.WindowCanExecuteArgs)">
+            <summary>
+            Determines whether this instance can execute on specified Window
+            (or the default Window, if you pass in null).
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.CloseCommand.IfNoHandlerOnExecute(System.Object,Huddled.Wpf.WindowCommand.WindowOnExecuteArgs)">
+            <summary>
+            Executes the hotkey action on the specified Window.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="T:Huddled.Wpf.GlobalCommands.HideCommand">
+            <summary>
+            A <see cref="T:Huddled.Wpf.WindowCommand"/> which hides the Window
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.HideCommand.IfNoHandlerOnCanExecute(System.Object,Huddled.Wpf.WindowCommand.WindowCanExecuteArgs)">
+            <summary>
+            Determines whether this instance can execute on specified Window
+            (or the default Window, if you pass in null).
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.HideCommand.IfNoHandlerOnExecute(System.Object,Huddled.Wpf.WindowCommand.WindowOnExecuteArgs)">
+            <summary>
+            Executes the hotkey action on the specified Window.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="T:Huddled.Wpf.GlobalCommands.ShowCommand">
+            <summary>
+            A <see cref="T:Huddled.Wpf.WindowCommand"/> which unhides the Window
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.ShowCommand.IfNoHandlerOnCanExecute(System.Object,Huddled.Wpf.WindowCommand.WindowCanExecuteArgs)">
+            <summary>
+            Determines whether this instance can execute on specified Window
+            (or the default Window, if you pass in null).
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.ShowCommand.IfNoHandlerOnExecute(System.Object,Huddled.Wpf.WindowCommand.WindowOnExecuteArgs)">
+            <summary>
+            Executes the hotkey action on the specified Window.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="T:Huddled.Wpf.GlobalCommands.ToggleCommand">
+            <summary>
+            A <see cref="T:Huddled.Wpf.WindowCommand"/> which toggles the visibility of the Window
+            </summary>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.ToggleCommand.IfNoHandlerOnCanExecute(System.Object,Huddled.Wpf.WindowCommand.WindowCanExecuteArgs)">
+            <summary>
+            Determines whether this instance can execute on specified Window
+            (or the default Window, if you pass in null).
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+        <member name="M:Huddled.Wpf.GlobalCommands.ToggleCommand.IfNoHandlerOnExecute(System.Object,Huddled.Wpf.WindowCommand.WindowOnExecuteArgs)">
+            <summary>
+            Executes the hotkey action on the specified Window.
+            </summary>
+            <param name="window">The Window.</param>
+            <param name="e">The event arguments</param>
+        </member>
+    </members>
+</doc>
