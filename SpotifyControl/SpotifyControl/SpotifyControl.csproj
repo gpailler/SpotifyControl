@@ -108,13 +108,15 @@
     </Compile>
     <Compile Include="Controller\SpotifyCommands.cs" />
     <Compile Include="Controls\ToggleButtonTwoStates.cs" />
-    <Compile Include="Controller\ISpotifyActions.cs" />
+    <Compile Include="Interfaces\ISpotifyActions.cs" />
+    <Compile Include="Interfaces\ISpotifyState.cs" />
     <Compile Include="Controls\NotifyBalloon.xaml.cs">
       <DependentUpon>NotifyBalloon.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\SettingsControl.xaml.cs">
       <DependentUpon>SettingsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ITrackInfos.cs" />
     <Compile Include="Metadata\Resolvers\DummyResolver.cs" />
     <Compile Include="Metadata\Resolvers\IMetadataResolver.cs" />
     <Compile Include="Metadata\MetadataInfos.cs" />
@@ -122,7 +124,6 @@
     <Compile Include="Metadata\Resolvers\WebServicesResolver.cs" />
     <Compile Include="Controller\SpotifyController.cs" />
     <Compile Include="Metadata\Resolvers\SpotifyLibResolver.cs" />
-    <Compile Include="Controller\SpotifyInfos.cs" />
     <Compile Include="Controller\TrackInfos.cs" />
     <Compile Include="Metadata\Resolvers\WebServices\LastFmWebService.cs" />
     <Compile Include="Metadata\Resolvers\WebServices\SpotifyWebService.cs" />

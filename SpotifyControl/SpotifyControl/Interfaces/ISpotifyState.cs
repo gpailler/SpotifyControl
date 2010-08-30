@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CG.SpotifyControl.Controller;
 
-namespace CG.SpotifyControl.Controller
+namespace CG.SpotifyControl.Interfaces
 {
-	public interface ISpotifyActions
+	public interface ISpotifyState
 	{
 		bool IsSpotifyRunning
 		{
@@ -17,26 +18,12 @@ namespace CG.SpotifyControl.Controller
 			get;
 		}
 
-		void PlayPause();
-
-		void PlayPrev();
-
-		void PlayNext();
-
-		void Mute();
-
-		void VolumeUp();
-
-		void VolumeDown();
-
-		void BringToTop();
-
 		bool IsSpotifyVisible
 		{
 			get;
 		}
 
-		TrackInfos TrackInfos
+		ITrackInfos TrackInfos
 		{
 			get;
 		}

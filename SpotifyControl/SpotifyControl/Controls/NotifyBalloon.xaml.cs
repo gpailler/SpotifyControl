@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CG.SpotifyControl.Interfaces;
 using Hardcodet.Wpf.TaskbarNotification;
 using CG.Common.Wpf;
 using CG.SpotifyControl.Controller;
@@ -27,9 +28,9 @@ namespace CG.SpotifyControl
 		public const int DISPLAY_DELAY = 5000;
 		private bool _isClosing = false;
 
-		public static readonly TypeSafeDependencyProperty<NotifyBalloon, TrackInfos> TrackInfosProperty = TypeSafeDependencyProperty<NotifyBalloon, TrackInfos>.Register(o => o.TrackInfos);
+		public static readonly TypeSafeDependencyProperty<NotifyBalloon, ITrackInfos> TrackInfosProperty = TypeSafeDependencyProperty<NotifyBalloon, ITrackInfos>.Register(o => o.TrackInfos);
 		
-		public TrackInfos TrackInfos
+		public ITrackInfos TrackInfos
 		{
 			get { return TrackInfosProperty.GetValue(this); }
 			set { TrackInfosProperty.SetValue(this, value); }
