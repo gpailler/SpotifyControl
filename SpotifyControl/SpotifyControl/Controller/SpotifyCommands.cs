@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using CG.SpotifyControl.Interfaces;
 
 namespace CG.SpotifyControl.Controller
 {
 	public class SpotifyCommands : ICommand
 	{
-		private readonly ISpotifyActions _actions;
+		private readonly ISpotifyActions _spotifyActions;
 
-		public SpotifyCommands(ISpotifyActions actions)
+		public SpotifyCommands(ISpotifyActions spotifyActions)
 		{
-			_actions = actions;
+			_spotifyActions = spotifyActions;
 		}
 
 		public event EventHandler CanExecuteChanged
@@ -30,12 +31,12 @@ namespace CG.SpotifyControl.Controller
 		{
 			switch ((CommandType)parameter)
 			{
-				case CommandType.Previous:
-					_actions.PlayPrev();
+				case CommandType.PreviousTrack:
+					_spotifyActions.PlayPrev();
 					break;
 
-				case CommandType.Next:
-					_actions.PlayNext();
+				case CommandType.NextTrack:
+					_spotifyActions.PlayNext();
 					break;
 			}
 		}
@@ -43,7 +44,7 @@ namespace CG.SpotifyControl.Controller
 
 	public enum CommandType
 	{
-		Previous,
-		Next
+		PreviousTrack,
+		NextTrack
 	}
 }

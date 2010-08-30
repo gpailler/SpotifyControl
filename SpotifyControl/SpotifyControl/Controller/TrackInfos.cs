@@ -7,10 +7,11 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 using CG.Common.Extensions;
+using CG.SpotifyControl.Interfaces;
 
 namespace CG.SpotifyControl.Controller
 {
-	public class TrackInfos : INotifyPropertyChanged
+	public class TrackInfos : ITrackInfos, INotifyPropertyChanged
 	{
 		private Metadata.MetadataInfos _metadataInfos;
 
@@ -67,7 +68,7 @@ namespace CG.SpotifyControl.Controller
 		{
 			get
 			{
-				return (_metadataInfos == null) ? Metadata.MetadataInfos.YEAR_DEFAULT : _metadataInfos.AlbumYear;
+				return (_metadataInfos == null) ? Metadata.MetadataInfos.DEFAULT_YEAR : _metadataInfos.AlbumYear;
 			}
 		}
 
@@ -75,7 +76,7 @@ namespace CG.SpotifyControl.Controller
 		{
 			get
 			{
-				return (_metadataInfos == null) ? Metadata.MetadataInfos.LENGTH_DEFAULT : _metadataInfos.TrackLength;
+				return (_metadataInfos == null) ? Metadata.MetadataInfos.DEFAULT_LENGTH : _metadataInfos.TrackLength;
 			}
 		}
 

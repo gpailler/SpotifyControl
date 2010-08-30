@@ -8,8 +8,8 @@ namespace CG.SpotifyControl.Metadata
 {
 	public class MetadataInfos
 	{
-		public const ushort YEAR_DEFAULT = ushort.MinValue;
-		public static readonly TimeSpan LENGTH_DEFAULT = TimeSpan.Zero;
+		public const ushort DEFAULT_YEAR = ushort.MinValue;
+		public static readonly TimeSpan DEFAULT_LENGTH = TimeSpan.Zero;
 
 		internal MetadataInfos(string albumName, Bitmap albumArt, int albumYear, TimeSpan trackLength)
 		{

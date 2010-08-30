@@ -13,60 +13,62 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using CG.Common;
 using CG.Common.Extensions;
+using CG.SpotifyControl.Interfaces;
 
 namespace CG.SpotifyControl.Controller
 {
-	public class SpotifyController : IDisposable, ISpotifyActions, INotifyPropertyChanged
+	public class SpotifyController : ISpotifyState, ISpotifyActions, IDisposable, INotifyPropertyChanged
 	{
 		private const uint WATCHING_INTERVAL = 100;
 		private const string SPOTIFY_PROCESS_NAME = "spotify";
 		internal const string SPOTIFY_WINDOW_NAME = "Spotify";
 		internal const string SPOTIFY_WINDOW_CLASS_NAME = "SpotifyMainWindow";
 
-		private volatile bool _isUpdatingSpotifyInfos = false;
+		private volatile bool _isUpdatingSpotifyState = false;
 		private readonly System.Threading.Timer _spotifyWatchingTimer = null;
-		private readonly SpotifyInfos _spotifyInfos = new SpotifyInfos();
 		private readonly SpotifyCommands _commands = null;
 
+		//Used to monitor spotify instance
+		private int _processId = 0;
+		private IntPtr _mainWindow = IntPtr.Zero;
+		private string _windowName = null;
+		private readonly TrackInfos _trackInfos = new TrackInfos();
 
-		#region Logic
+		// !! The dash symbol is not standard, it's a long dash
+		private static readonly Regex _trackRegex = new Regex(string.Format(@"^{0}\s\-\s(?<Artist>.*)\s–\s(?<Title>.*)$", SpotifyController.SPOTIFY_WINDOW_NAME));
+
+
 
 		public SpotifyController()
 		{
 			//Initialize commands
 			_commands = new SpotifyCommands(this);
 
-			_spotifyInfos.PropertyChanged += new PropertyChangedEventHandler(_spotifyInfos_PropertyChanged);
-
 			// Initialize infos
-			this.UpdateSpotifyInfos(false);
+			this.UpdateSpotifyState(false);
 
-			// Start a timer to check spotify infos periodically
+			// Start a timer to monitor spotify instance periodically
 			_spotifyWatchingTimer = new System.Threading.Timer(
-				(data) => UpdateSpotifyInfos(true),
+				(data) => UpdateSpotifyState(true),
 				null,
 				WATCHING_INTERVAL,
 				WATCHING_INTERVAL);
 		}
 
-		void _spotifyInfos_PropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, e);
-		}
 
 		public void Dispose()
 		{
 			_spotifyWatchingTimer.Dispose();
 		}
 
-		private void UpdateSpotifyInfos(bool raiseEvent)
+
+		private void UpdateSpotifyState(bool raiseEvent)
 		{
 			//If update take more time than timer tick, quit immediately
-			if (_isUpdatingSpotifyInfos)
+			if (_isUpdatingSpotifyState)
 				return;
 
-			_isUpdatingSpotifyInfos = true;
+			_isUpdatingSpotifyState = true;
 
 			try
 			{
@@ -74,108 +76,39 @@ namespace CG.SpotifyControl.Controller
 				Process[] processes = Process.GetProcessesByName(SPOTIFY_PROCESS_NAME);
 				int processId = (processes.Length == 0) ? 0 : processes[0].Id;
 
-				_spotifyInfos.Update(processId);
+				UpdateSpotifyState(processId);
 
-				if (_spotifyInfos.ProcessIdChanged)
+				if (raiseEvent)
 				{
-					if (raiseEvent)
-						RaiseSpotifyStatusChanged(this._spotifyInfos.IsSpotifyRunning ? eSpotifyStatus.Running : eSpotifyStatus.Closed);
-					return;
-				}
-
-				if (_spotifyInfos.WindowNameChanged)
-				{
-					if (_spotifyInfos.IsPlayingChanged)
+					if (this.ProcessIdChanged)
 					{
-						if (raiseEvent)
-							RaiseSpotifyStatusChanged(this._spotifyInfos.IsPlaying ? eSpotifyStatus.Playing : eSpotifyStatus.Stopped);
+						RaiseSpotifyStatusChanged(this.IsSpotifyRunning ? eSpotifyStatus.Running : eSpotifyStatus.Closed);
+						return;
 					}
-					else
+
+					if (this.WindowNameChanged)
 					{
-						if (raiseEvent)
+						if (this.IsPlayingChanged)
+						{
+							RaiseSpotifyStatusChanged(this.IsPlaying ? eSpotifyStatus.Playing : eSpotifyStatus.Stopped);
+						}
+						else
+						{
 							RaiseSpotifyStatusChanged(eSpotifyStatus.TrackChanged);
+						}
+
+						return;
 					}
-					
-					return;
 				}
 			}
 			finally
 			{
-				_isUpdatingSpotifyInfos = false;
+				_isUpdatingSpotifyState = false;
 			}
 		}
 
-		#endregion
 
-
-		#region Forward => SpotifyInfos
-
-		public bool IsSpotifyRunning
-		{
-			get { return _spotifyInfos.IsSpotifyRunning; }
-		}
 		
-		public bool IsPlaying
-		{
-			get { return _spotifyInfos.IsPlaying; }
-			set
-			{
-				if (this.IsPlaying == value)
-					return;
-
-				this.PlayPause();
-			}
-		}
-
-		public void PlayPause()
-		{
-			_spotifyInfos.PlayPause();
-			PropertyChanged.Notify(() => IsPlaying);
-		}
-
-		public void PlayPrev()
-		{
-			_spotifyInfos.PlayPrev();
-		}
-
-		public void PlayNext()
-		{
-			_spotifyInfos.PlayNext();
-		}
-
-		public void Mute()
-		{
-			_spotifyInfos.Mute();
-		}
-
-		public void VolumeUp()
-		{
-			_spotifyInfos.VolumeUp();
-		}
-
-		public void VolumeDown()
-		{
-			_spotifyInfos.VolumeDown();
-		}
-
-		public bool IsSpotifyVisible
-		{
-			get { return _spotifyInfos.IsSpotifyVisible; }
-		}
-
-		public void BringToTop()
-		{
-			_spotifyInfos.BringToTop();
-		}
-
-		public TrackInfos TrackInfos
-		{
-			get { return _spotifyInfos.TrackInfos; }
-		}
-
-		#endregion
-		
-
 		#region Status event
 
 		public event Action<SpotifyController, eSpotifyStatus> SpotifyStatusChanged;
@@ -199,9 +132,224 @@ namespace CG.SpotifyControl.Controller
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public SpotifyCommands Commands
+		private void UpdateSpotifyState(int processId)
 		{
-			get { return _commands; }
+			this.ProcessIdChanged = (this.ProcessId != processId);
+
+			this.ProcessId = processId;
+			_mainWindow = IntPtr.Zero;
+
+			if (this.ProcessId != 0)
+			{
+				//We use pinvoke because Process infos from Process class doesn't contains accurate informations
+				_mainWindow = Win32PInvoke.FindWindow(SPOTIFY_WINDOW_CLASS_NAME, null);
+				if (_mainWindow != IntPtr.Zero)
+				{
+					string windowName = Win32PInvoke.GetWindowText(_mainWindow);
+					this.WindowNameChanged = (this.WindowName != null && windowName != this.WindowName);
+
+					bool previousIsPlayingState = this.IsPlaying;
+					this.WindowName = windowName;
+					this.IsPlayingChanged = (previousIsPlayingState != this.IsPlaying);
+
+					UpdateTrackInfos();
+				}
+				else
+				{
+					_trackInfos.ClearInfos();
+				}
+			}
 		}
+
+		private void UpdateTrackInfos()
+		{
+			Match m = _trackRegex.Match(this.WindowName);
+			if (m.Success)
+			{
+				//We update only if track has changed
+				if (_trackInfos.ArtistName != m.Groups["Artist"].Value || _trackInfos.TrackName != m.Groups["Title"].Value)
+				{
+					_trackInfos.UpdateInfos(m.Groups["Artist"].Value, m.Groups["Title"].Value);
+				}
+			}
+			else
+			{
+				_trackInfos.ClearInfos();
+			}
+		}
+
+
+		#region Handle changes
+
+		bool ProcessIdChanged
+		{
+			get;
+			set;
+		}
+
+		bool WindowNameChanged
+		{
+			get;
+			set;
+		}
+
+		bool IsPlayingChanged
+		{
+			get;
+			set;
+		}
+
+		#endregion
+
+
+		private int ProcessId
+		{
+			get { return _processId; }
+			set
+			{
+				if (_processId == value)
+					return;
+
+				_processId = value;
+				this.PropertyChanged.Notify(() => IsSpotifyRunning);
+			}
+		}
+
+		private string WindowName
+		{
+			get { return _windowName; }
+			set
+			{
+				if (_windowName == value)
+					return;
+
+				_windowName = value;
+				this.PropertyChanged.Notify(() => IsPlaying);
+			}
+		}
+
+
+		#region State
+
+		public bool IsSpotifyRunning
+		{
+			get { return (this.ProcessId != 0); }
+		}
+
+		public bool IsPlaying
+		{
+			get
+			{
+				if (!this.IsSpotifyRunning) return false;
+				return (!(string.IsNullOrEmpty(this.WindowName) || this.WindowName == SpotifyController.SPOTIFY_WINDOW_NAME));
+			}
+
+			set
+			{
+				if (this.IsPlaying == value)
+					return;
+
+				this.PlayPause();
+			}
+		}
+
+		public bool IsSpotifyVisible
+		{
+			get
+			{
+				if (!this.IsSpotifyRunning) return false;
+				return Win32PInvoke.IsWindowVisible(_mainWindow);
+			}
+		}
+
+		public ITrackInfos TrackInfos
+		{
+			get { return _trackInfos; }
+		}
+
+		#endregion
+
+
+		#region Actions
+		// Based on http://spotifycontrol.googlecode.com/svn/trunk/SpotifyControl/ControllerClass.vb
+
+		public void PlayPause()
+		{
+			if (!this.IsSpotifyRunning) return;
+			Win32PInvoke.PostMessage(_mainWindow, 0x319, IntPtr.Zero, new IntPtr(0xE0000));
+
+			PropertyChanged.Notify(() => IsPlaying);
+		}
+
+		public void PlayPrev()
+		{
+			if (!this.IsSpotifyRunning) return;
+			Win32PInvoke.PostMessage(_mainWindow, 0x319, IntPtr.Zero, new IntPtr(0xC0000));
+		}
+
+		public void PlayNext()
+		{
+			if (!this.IsSpotifyRunning) return;
+			Win32PInvoke.PostMessage(_mainWindow, 0x319, IntPtr.Zero, new IntPtr(0xB0000));
+		}
+
+		public void Mute()
+		{
+			if (!this.IsSpotifyRunning) return;
+
+			//This will press the ctrl key and the shift key then send a the KeyDown to the spotifyHandle
+			Win32PInvoke.keybd_event(Keys.ControlKey, 0x1D, Win32PInvoke.KeyEvent.None, UIntPtr.Zero);
+			Win32PInvoke.keybd_event(Keys.ShiftKey, 0x1D, Win32PInvoke.KeyEvent.None, UIntPtr.Zero);
+			Win32PInvoke.PostMessage(_mainWindow, 0x100, new IntPtr((int)Keys.Down), IntPtr.Zero);
+
+			//Wait a little
+			Thread.Sleep(100);
+
+			//Release the ctrlkey and shift key
+			Win32PInvoke.keybd_event(Keys.ControlKey, 0x1D, Win32PInvoke.KeyEvent.KeyUp, UIntPtr.Zero);
+			Win32PInvoke.keybd_event(Keys.ShiftKey, 0x1D, Win32PInvoke.KeyEvent.KeyUp, UIntPtr.Zero);
+		}
+
+		public void VolumeUp()
+		{
+			if (!this.IsSpotifyRunning) return;
+
+			//This will press the ctrl key then send a the KeyUP to the spotifyHandle
+			Win32PInvoke.keybd_event(Keys.ControlKey, 0x1D, Win32PInvoke.KeyEvent.None, UIntPtr.Zero);
+			Win32PInvoke.PostMessage(_mainWindow, 0x100, new IntPtr((int)Keys.Up), IntPtr.Zero);
+
+			//Wait a little
+			Thread.Sleep(100);
+
+			//Release the ctrlkey
+			Win32PInvoke.keybd_event(Keys.ControlKey, 0x1D, Win32PInvoke.KeyEvent.KeyUp, UIntPtr.Zero);
+		}
+
+		public void VolumeDown()
+		{
+			if (!this.IsSpotifyRunning) return;
+
+			//This will press the ctrl key then send a the KeyDown to the spotifyHandle
+			Win32PInvoke.keybd_event(Keys.ControlKey, 0x1D, Win32PInvoke.KeyEvent.None, UIntPtr.Zero);
+			Win32PInvoke.PostMessage(_mainWindow, 0x100, new IntPtr((int)Keys.Down), IntPtr.Zero);
+
+			//Wait a little
+			Thread.Sleep(100);
+
+			//Release the ctrlkey
+			Win32PInvoke.keybd_event(Keys.ControlKey, 0x1D, Win32PInvoke.KeyEvent.KeyUp, UIntPtr.Zero);
+		}
+
+		public void BringToTop()
+		{
+			if (!this.IsSpotifyRunning) return;
+
+			Win32PInvoke.ShowWindow(_mainWindow, Win32PInvoke.WindowShowStyle.ShowNormal);
+			Win32PInvoke.SetForegroundWindow(_mainWindow);
+			Win32PInvoke.SetFocus(_mainWindow);
+		}
+
+		#endregion
+
 	}
 }

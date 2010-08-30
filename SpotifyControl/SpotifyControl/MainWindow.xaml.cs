@@ -33,7 +33,7 @@ namespace CG.SpotifyControl
 			this.Top = Properties.Settings.Default.ControllerTop;
 
 			_controller = new Controller.SpotifyController();
-			_controller.SpotifyStatusChanged += new Action<Controller.SpotifyController, Controller.SpotifyController.eSpotifyStatus>(controler_SpotifyStatusChanged);
+			_controller.SpotifyStatusChanged += controler_SpotifyStatusChanged;
 
 			if (_controller.IsPlaying)	
 				ShowBalloon(_controller);
@@ -43,7 +43,7 @@ namespace CG.SpotifyControl
 
 		public static void ShowCustomBalloon(string message, Hardcodet.Wpf.TaskbarNotification.BalloonIcon icon)
 		{
-			_instance.MyNotifyIcon.ShowBalloonTip((string)_instance.FindResource("ApplicationName"), message, icon);
+			_instance.NotifyIcon.ShowBalloonTip((string)_instance.FindResource("ApplicationName"), message, icon);
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -65,7 +65,7 @@ namespace CG.SpotifyControl
 
 			if (e.Source == menuSettings)
 			{
-				MyNotifyIcon.CloseBalloon();
+				NotifyIcon.CloseBalloon();
 				SettingsWindow frm = new SettingsWindow();
 				bool playingState = _controller.IsPlaying;
 				_controller.IsPlaying = false;
@@ -91,15 +91,15 @@ namespace CG.SpotifyControl
 			NotifyBalloon balloon = new NotifyBalloon();
 			balloon.TrackInfos = ((Controller.SpotifyController)data).TrackInfos;
 
-			lock (MyNotifyIcon)
+			lock (NotifyIcon)
 			{
-				if (MyNotifyIcon.CustomBalloon != null && MyNotifyIcon.CustomBalloon.IsOpen)
+				if (NotifyIcon.CustomBalloon != null && NotifyIcon.CustomBalloon.IsOpen)
 				{
-					MyNotifyIcon.ChangeBalloonCloseTimer(NotifyBalloon.DISPLAY_DELAY);
+					NotifyIcon.ChangeBalloonCloseTimer(NotifyBalloon.DISPLAY_DELAY);
 				}
 				else
 				{
-					MyNotifyIcon.ShowCustomBalloon(balloon, PopupAnimation.Fade, NotifyBalloon.DISPLAY_DELAY);
+					NotifyIcon.ShowCustomBalloon(balloon, PopupAnimation.Fade, NotifyBalloon.DISPLAY_DELAY);
 				}
 			}
 		}

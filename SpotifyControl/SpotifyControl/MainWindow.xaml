@@ -32,7 +32,7 @@
 
 	<Grid Margin="0" IsEnabled="{Binding Path=IsSpotifyRunning}">
 		<tb:TaskbarIcon
-			x:Name="MyNotifyIcon"
+			x:Name="NotifyIcon"
 			IconSource="{StaticResource ApplicationIcon}"
 			ToolTipText="{StaticResource ApplicationName}" Margin="0,0,86,-5" d:IsLocked="True">
 			<tb:TaskbarIcon.ContextMenu>
@@ -73,8 +73,8 @@
 			</TextBlock.Text>
 		</TextBlock>
 		<ctrls:ToggleButtonTwoStates x:Name="PlayPause" HorizontalAlignment="Left" Margin="19,2,0,2" Template="{StaticResource ToggleButtonAction}" Width="17" IsChecked="{Binding Path=IsPlaying}" ButtonStateChecked="{DynamicResource PauseGlyph}" ButtonStateUnchecked="{DynamicResource PlayGlyph}" />
-		<Button x:Name="Previous" Template="{StaticResource ButtonAction}" HorizontalAlignment="Left" Margin="5,4,0,4" Width="13" Height="13" Content="{StaticResource PreviousGlyph}" Command="{Binding Path=Commands}" CommandParameter="{x:Static controller:CommandType.Previous}" />
-		<Button x:Name="Next" Template="{StaticResource ButtonAction}" HorizontalAlignment="Left" Margin="37,4,0,4" Width="13" Height="13" Content="{StaticResource NextGlyph}" Command="{Binding Path=Commands}" CommandParameter="{x:Static controller:CommandType.Next}" />
+		<Button x:Name="Previous" Template="{StaticResource ButtonAction}" HorizontalAlignment="Left" Margin="5,4,0,4" Width="13" Height="13" Content="{StaticResource PreviousGlyph}" Command="{Binding Path=Commands}" CommandParameter="{x:Static controller:CommandType.PreviousTrack}" />
+		<Button x:Name="Next" Template="{StaticResource ButtonAction}" HorizontalAlignment="Left" Margin="37,4,0,4" Width="13" Height="13" Content="{StaticResource NextGlyph}" Command="{Binding Path=Commands}" CommandParameter="{x:Static controller:CommandType.NextTrack}" />
 	</Grid>
 </Window>
 
