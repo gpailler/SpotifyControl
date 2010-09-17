@@ -14,6 +14,7 @@ namespace CG.SpotifyControl.Controller
 	public class TrackInfos : ITrackInfos, INotifyPropertyChanged
 	{
 		private Metadata.MetadataInfos _metadataInfos;
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		internal void UpdateInfos(string artistName, string trackName)
 		{
@@ -43,6 +44,7 @@ namespace CG.SpotifyControl.Controller
 			PropertyChanged.NotifyAll(this);
 		}
 
+		#region Properties
 
 		public string TrackName
 		{
@@ -88,6 +90,6 @@ namespace CG.SpotifyControl.Controller
 			}
 		}
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
 	}
 }

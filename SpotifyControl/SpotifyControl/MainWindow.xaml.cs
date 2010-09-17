@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
+using CG.SpotifyControl.Interfaces;
 
 namespace CG.SpotifyControl
 {
@@ -25,16 +26,18 @@ namespace CG.SpotifyControl
 
 		public MainWindow()
 		{
-			_instance = this;
-
 			InitializeComponent();
+
+			_instance = this;
 
 			//Workaround to set icon
 			BitmapImage icon = (BitmapImage)Application.Current.FindResource("ApplicationIcon");
 			this.Icon = BitmapFrame.Create(new Uri(icon.BaseUri, icon.UriSource));
 			
+
 			this.Left = Properties.Settings.Default.ControllerLeft;
 			this.Top = Properties.Settings.Default.ControllerTop;
+
 
 			_controller = new Controller.SpotifyController();
 			_controller.SpotifyStatusChanged += controler_SpotifyStatusChanged;
@@ -52,7 +55,6 @@ namespace CG.SpotifyControl
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			this.Hide();
 			e.Cancel = true;
 		}
 
@@ -70,6 +72,7 @@ namespace CG.SpotifyControl
 			if (e.Source == menuSettings)
 			{
 				NotifyIcon.CloseBalloon();
+
 				SettingsWindow frm = new SettingsWindow();
 				bool playingState = _controller.IsPlaying;
 				_controller.IsPlaying = false;
@@ -80,11 +83,9 @@ namespace CG.SpotifyControl
 
 
 
-		void controler_SpotifyStatusChanged(Controller.SpotifyController sender, Controller.SpotifyController.eSpotifyStatus obj)
+		void controler_SpotifyStatusChanged(Controller.SpotifyController sender, SpotifyStatus obj)
 		{
-			System.Diagnostics.Debug.WriteLine("Status: " + obj);
-
-			if (obj == Controller.SpotifyController.eSpotifyStatus.TrackChanged || obj == Controller.SpotifyController.eSpotifyStatus.Playing)
+			if (obj == SpotifyStatus.TrackChanged || obj == SpotifyStatus.Playing)
 			{
 				this.Dispatcher.BeginInvoke(new Action<Controller.SpotifyController>(ShowBalloon), sender);
 			}
