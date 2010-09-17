@@ -222,7 +222,7 @@
       <Link>Libs\WPG.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Graphics\Spotify.ico" />
+    <Resource Include="Graphics\Spotify3.ico" />
     <Resource Include="Graphics\Spotify_256x256px.png" />
   </ItemGroup>
   <ItemGroup />

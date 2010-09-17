@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Height="497" Width="437"
 	xmlns:GUI="clr-namespace:CG.SpotifyControl.GUI"
-	Icon="/SpotifyControl;component/Graphics/Spotify.ico"
 	Title="{Binding Source={StaticResource ApplicationName}, StringFormat={}{0} - Settings}" Style="{DynamicResource SpotifyWindowStyle}">
 	<Grid>
 		<TabControl Name="tabControl1" Background="{x:Null}">

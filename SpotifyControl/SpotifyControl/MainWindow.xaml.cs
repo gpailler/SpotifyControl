@@ -28,6 +28,10 @@ namespace CG.SpotifyControl
 			_instance = this;
 
 			InitializeComponent();
+
+			//Workaround to set icon
+			BitmapImage icon = (BitmapImage)Application.Current.FindResource("ApplicationIcon");
+			this.Icon = BitmapFrame.Create(new Uri(icon.BaseUri, icon.UriSource));
 			
 			this.Left = Properties.Settings.Default.ControllerLeft;
 			this.Top = Properties.Settings.Default.ControllerTop;
