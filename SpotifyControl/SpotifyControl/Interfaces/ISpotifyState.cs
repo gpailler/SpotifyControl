@@ -27,5 +27,20 @@ namespace CG.SpotifyControl.Interfaces
 		{
 			get;
 		}
+
+		SpotifyStatus Status
+		{
+			get;
+		}
+	}
+
+
+	public enum SpotifyStatus
+	{
+		Running,
+		Closed,
+		Playing,
+		Stopped,
+		TrackChanged
 	}
 }

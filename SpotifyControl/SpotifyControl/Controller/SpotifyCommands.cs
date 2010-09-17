@@ -38,6 +38,9 @@ namespace CG.SpotifyControl.Controller
 				case CommandType.NextTrack:
 					_spotifyActions.PlayNext();
 					break;
+
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 	}

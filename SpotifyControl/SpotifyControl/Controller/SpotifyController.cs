@@ -26,7 +26,6 @@ namespace CG.SpotifyControl.Controller
 
 		private volatile bool _isUpdatingSpotifyState = false;
 		private readonly System.Threading.Timer _spotifyWatchingTimer = null;
-		private readonly SpotifyCommands _commands = null;
 
 		//Used to monitor spotify instance
 		private int _processId = 0;
@@ -41,9 +40,6 @@ namespace CG.SpotifyControl.Controller
 
 		public SpotifyController()
 		{
-			//Initialize commands
-			_commands = new SpotifyCommands(this);
-
 			// Initialize infos
 			this.UpdateSpotifyState(false);
 
@@ -65,6 +61,10 @@ namespace CG.SpotifyControl.Controller
 			_spotifyWatchingTimer.Dispose();
 		}
 
+		public event PropertyChangedEventHandler PropertyChanged;
+
+
+		#region Updates
 
 		private void UpdateSpotifyState(bool raiseEvent)
 		{
@@ -86,7 +86,7 @@ namespace CG.SpotifyControl.Controller
 				{
 					if (this.ProcessIdChanged)
 					{
-						RaiseSpotifyStatusChanged(this.IsSpotifyRunning ? eSpotifyStatus.Running : eSpotifyStatus.Closed);
+						RaiseSpotifyStatusChanged(this.IsSpotifyRunning ? SpotifyStatus.Running : SpotifyStatus.Closed);
 						return;
 					}
 
@@ -94,11 +94,11 @@ namespace CG.SpotifyControl.Controller
 					{
 						if (this.IsPlayingChanged)
 						{
-							RaiseSpotifyStatusChanged(this.IsPlaying ? eSpotifyStatus.Playing : eSpotifyStatus.Stopped);
+							RaiseSpotifyStatusChanged(this.IsPlaying ? SpotifyStatus.Playing : SpotifyStatus.Stopped);
 						}
 						else
 						{
-							RaiseSpotifyStatusChanged(eSpotifyStatus.TrackChanged);
+							RaiseSpotifyStatusChanged(SpotifyStatus.TrackChanged);
 						}
 
 						return;
@@ -110,31 +110,6 @@ namespace CG.SpotifyControl.Controller
 				_isUpdatingSpotifyState = false;
 			}
 		}
-
-
-		
-		#region Status event
-
-		public event Action<SpotifyController, eSpotifyStatus> SpotifyStatusChanged;
-
-		private void RaiseSpotifyStatusChanged(eSpotifyStatus status)
-		{
-			if (SpotifyStatusChanged != null)
-				SpotifyStatusChanged(this, status);
-		}
-
-		public enum eSpotifyStatus
-		{
-			Running,
-			Closed,
-			Playing,
-			Stopped,
-			TrackChanged
-		}
-
-		#endregion
-
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void UpdateSpotifyState(int processId)
 		{
@@ -182,29 +157,28 @@ namespace CG.SpotifyControl.Controller
 			}
 		}
 
-
-		#region Handle changes
-
-		bool ProcessIdChanged
-		{
-			get;
-			set;
-		}
-
-		bool WindowNameChanged
-		{
-			get;
-			set;
-		}
-
-		bool IsPlayingChanged
-		{
-			get;
-			set;
-		}
-
 		#endregion
 
+
+		#region Properties
+
+		private bool ProcessIdChanged
+		{
+			get;
+			set;
+		}
+
+		private bool WindowNameChanged
+		{
+			get;
+			set;
+		}
+
+		private bool IsPlayingChanged
+		{
+			get;
+			set;
+		}
 
 		private int ProcessId
 		{
@@ -232,8 +206,10 @@ namespace CG.SpotifyControl.Controller
 			}
 		}
 
+		#endregion
 
-		#region State
+
+		#region ISpotifyState
 
 		public bool IsSpotifyRunning
 		{
@@ -271,10 +247,17 @@ namespace CG.SpotifyControl.Controller
 			get { return _trackInfos; }
 		}
 
+		public SpotifyStatus Status
+		{
+			get; 
+			private set;
+		}
+
 		#endregion
 
 
-		#region Actions
+		#region ISpotifyActions
+
 		// Based on http://spotifycontrol.googlecode.com/svn/trunk/SpotifyControl/ControllerClass.vb
 
 		public void PlayPause()
@@ -355,5 +338,21 @@ namespace CG.SpotifyControl.Controller
 
 		#endregion
 
+
+		#region Status event
+
+		public event Action<SpotifyController, SpotifyStatus> SpotifyStatusChanged;
+
+		private void RaiseSpotifyStatusChanged(SpotifyStatus status)
+		{
+			this.Status = status;
+
+			Action<SpotifyController, SpotifyStatus> handler = SpotifyStatusChanged;
+			if (handler != null)
+				handler(this, status);
+		}
+
+
+		#endregion
 	}
 }
