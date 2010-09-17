@@ -9,12 +9,11 @@
     <Application.Resources>
 		<ResourceDictionary>
 			<clr:String x:Key="ApplicationName">SpotifyControl</clr:String>
-			<BitmapImage x:Key="ApplicationImage" UriSource="pack://application:,,,/SpotifyControl;component/Graphics/Spotify_256x256px.png" />
-			<BitmapImage x:Key="ApplicationIcon" UriSource="pack://application:,,,/SpotifyControl;component/Graphics/Spotify.ico" />
+			<!--<BitmapImage x:Key="ApplicationImage" UriSource="pack://application:,,,/SpotifyControl;component/Graphics/Spotify_256x256px.png" />-->
+			<BitmapImage x:Key="ApplicationIcon" UriSource="/SpotifyControl;component/Graphics/Spotify3.ico" />
 			<clr:String x:Key="MenuSettings">Settings</clr:String>
 			<clr:String x:Key="MenuExit">Exit</clr:String>
 			<CGConverters:BitmapToBitmapSource x:Key="BitmapToBitmapSource" />
-			<CGConverters:StringFormatConverter x:Key="StringFormat" />
 			
 			<Style x:Key="SpotifyWindowStyle" TargetType="{x:Type Window}">
 				<Setter Property="Background" Value="#FF4E4E4E"/>

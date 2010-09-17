@@ -21,6 +21,10 @@ namespace CG.SpotifyControl
 		public SettingsWindow()
 		{
 			InitializeComponent();
+
+			//Workaround to set icon
+			BitmapImage icon = (BitmapImage) Application.Current.FindResource("ApplicationIcon");
+			this.Icon = BitmapFrame.Create(new Uri(icon.BaseUri, icon.UriSource));
 		}
 	}
 }

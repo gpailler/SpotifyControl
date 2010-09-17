@@ -55,6 +55,10 @@ namespace CG.SpotifyControl.Controller
 				WATCHING_INTERVAL);
 		}
 
+		public SpotifyCommands Commands
+		{
+			get { return SingletonCustomCtorProvider<SpotifyCommands>.InstanceCustomCtor(() => new SpotifyCommands(this)); }
+		}
 
 		public void Dispose()
 		{

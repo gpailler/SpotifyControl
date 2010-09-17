@@ -21,10 +21,7 @@
 	MouseLeftButtonDown="Window_MouseLeftButtonDown"
 	Background="{x:Null}"
 	AllowsTransparency="True"
-	Icon="/SpotifyControl;component/Graphics/Spotify.ico">
-	<Window.Title>
-		<StaticResource ResourceKey="ApplicationName"/>
-	</Window.Title>
+	Title="{StaticResource ApplicationName}">
 
 	<huddled:NativeBehaviors.Behaviors>
 		<huddled:SnapToBehavior SnapDistance="20,20,20,20" />

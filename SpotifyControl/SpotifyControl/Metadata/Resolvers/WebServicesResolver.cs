@@ -16,12 +16,7 @@ namespace CG.SpotifyControl.Metadata.Resolvers
 	{
 		private SpotifyWebService _spotifyWebService = null;
 		private LastFmWebService _lastFmWebService = null;
-		private WebServicesResolverOptions _options;
-
-		public WebServicesResolver()
-		{
-			_options = new WebServicesResolverOptions();
-		}
+		private readonly WebServicesResolverOptions _options = new WebServicesResolverOptions();
 
 		public void Initialize()
 		{
