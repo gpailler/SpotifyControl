@@ -30,20 +30,21 @@ namespace CG.Common
 	public sealed class SingletonCustomCtorProvider<T> where T : class
 	{
 		private static readonly object _lock = new object();
-		private static Func<T> _ctor;
 
 		public static T InstanceCustomCtor(Func<T> ctor)
 		{
-			if (_ctor != null)
-				throw new ArgumentException(".ctor is already initialized");
+			if (ctor == null)
+				throw new ArgumentException("You must provide a valid constructor");
 
-			lock (_lock)
+			if (SingletonCreator._instance == null)
 			{
-				if (_ctor != null)
-					throw new ArgumentException(".ctor is already initialized");
-
-				_ctor = ctor;
-				SingletonCreator.Initialize(ctor);
+				lock (_lock)
+				{
+					if (SingletonCreator._instance == null)
+					{
+						SingletonCreator.Initialize(ctor);
+					}
+				}
 			}
 
 			return SingletonCreator._instance;
