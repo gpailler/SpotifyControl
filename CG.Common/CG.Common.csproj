@@ -50,6 +50,7 @@
     <Compile Include="Extensions\NotificationExtensions.cs" />
     <Compile Include="Formatters\EnumFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingletonProvider.cs" />
     <Compile Include="Win32PInvoke.cs" />
     <Compile Include="Wpf\CommandExtension.cs" />
     <Compile Include="Wpf\Converters\BitmapToBitmapSource.cs" />
